@@ -1,0 +1,9 @@
+.claude/*.local.md
+.claude/*.local.json
+CLAUDE.local.md
+.claude/agent-memory/
+node_modules/
+.DS_Store
+.env
+.env.*
+.artifacts/

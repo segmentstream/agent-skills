@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{REPORT_TITLE}}</title>
+<style>
+  /* No external font imports — self-contained. System fonts with mono fallback. */
+
+  :root {
+    --bg-primary: #000000;
+    --bg-secondary: #0A0A0A;
+    --bg-code: #111111;
+    --bg-code-hover: #161616;
+    --accent: #6366F1;
+    --accent-dim: rgba(99, 102, 241, 0.15);
+    --text-primary: #EDEDED;
+    --text-secondary: #888888;
+    --text-muted: #555555;
+    --border: rgba(255, 255, 255, 0.08);
+    --border-hover: rgba(255, 255, 255, 0.15);
+    --positive: #10B981;
+    --negative: #EF4444;
+    --warning: #F59E0B;
+    --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'SF Mono', 'Cascadia Mono', 'Consolas', 'Liberation Mono', monospace;
+    --container: 1200px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .container { max-width: var(--container); margin: 0 auto; padding: 0 24px; }
+
+  /* ── Artifact Frame ────────────────────────────────────────────── */
+  .artifact-frame {
+    max-width: var(--container);
+    margin: 40px auto;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .artifact-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background: var(--bg-code);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .artifact-topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+  }
+
+  .artifact-logo svg { height: 20px; width: auto; display: block; }
+
+  .artifact-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .artifact-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+    margin-left: 12px;
+  }
+
+  .artifact-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: transparent;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 150ms ease;
+    color: rgba(255, 255, 255, 0.3);
+  }
+
+  .artifact-btn:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text-secondary);
+  }
+
+  .artifact-bottombar {
+    padding: 8px 20px;
+    background: var(--bg-code);
+    border-top: 1px solid var(--border);
+  }
+
+  .artifact-bottombar span {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.35);
+  }
+
+  /* ── Report content area ────────────────────────────────────────── */
+  .report-content {
+    background: var(--bg-secondary);
+  }
+
+  /* ── Header inside report ───────────────────────────────────────── */
+  .report-header {
+    padding: 60px 40px 40px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .report-header h1 {
+    font-size: 36px;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+
+  .report-header .subtitle {
+    font-size: 16px;
+    color: var(--text-secondary);
+    max-width: 680px;
+    line-height: 1.6;
+  }
+
+  .report-header .meta-row {
+    display: flex;
+    gap: 24px;
+    margin-top: 20px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    flex-wrap: wrap;
+  }
+
+  .report-header .meta-row .accent { color: var(--accent); }
+
+  /* ── Sections ───────────────────────────────────────────────────── */
+  section { padding: 40px; border-bottom: 1px solid var(--border); }
+  section:last-child { border-bottom: none; }
+  section h2 { font-size: 24px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 6px; }
+  section h3 { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; margin-top: 28px; margin-bottom: 10px; }
+  section .section-desc { color: var(--text-secondary); font-size: 15px; margin-bottom: 20px; max-width: 720px; line-height: 1.6; }
+
+  /* ── KPI Grid ───────────────────────────────────────────────────── */
+  /* Use flexbox for even distribution + center-aligned partial rows */
+  .kpi-grid { display: flex; flex-wrap: wrap; gap: 12px; margin: 24px 0; justify-content: center; }
+  .kpi-card { flex: 0 1 calc(33.333% - 8px); min-width: 200px; }
+  /* Column overrides: add class to .kpi-grid */
+  .kpi-grid-2 .kpi-card { flex-basis: calc(50% - 6px); }
+  .kpi-grid-4 .kpi-card { flex-basis: calc(25% - 9px); }
+  .kpi-card { background: var(--bg-code); border: 1px solid var(--border); border-radius: 12px; padding: 20px; transition: border-color 0.2s ease; }
+  .kpi-card:hover { border-color: var(--border-hover); }
+  .kpi-label { font-family: var(--font-mono); font-size: 9px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.35); margin-bottom: 8px; }
+  .kpi-value { font-family: var(--font-mono); font-size: 24px; font-weight: 600; color: var(--text-primary); letter-spacing: -0.02em; }
+  .kpi-change { font-family: var(--font-mono); font-size: 11px; margin-top: 6px; }
+  .kpi-change.positive { color: var(--positive); }
+  .kpi-change.negative { color: var(--negative); }
+  .kpi-change.neutral { color: var(--text-muted); }
+
+  /* ── Data Tables ────────────────────────────────────────────────── */
+  .data-table-wrapper { background: var(--bg-code); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin: 16px 0; }
+  .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+
+  /* Headers — always mono */
+  .data-table thead th {
+    text-align: left;
+    padding: 12px 16px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.3);
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .data-table thead th.num { text-align: right; }
+
+  /* Body cells — sans-serif by default, .num gets mono */
+  .data-table tbody td {
+    padding: 10px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    white-space: nowrap;
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: var(--text-primary);
+  }
+  .data-table tbody td.num {
+    text-align: right;
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+  .data-table tbody tr:last-child td { border-bottom: none; }
+  .data-table tbody tr:hover { background: var(--bg-code-hover); }
+
+  /* Footer row */
+  .data-table tfoot td {
+    padding: 12px 16px;
+    font-weight: 600;
+    border-top: 1px solid var(--border);
+    color: var(--text-primary);
+    font-size: 13px;
+  }
+  .data-table tfoot td.num { text-align: right; font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+
+  .data-table .positive { color: var(--positive); }
+  .data-table .negative { color: var(--negative); }
+  .data-table .accent { color: var(--accent); }
+  .data-table .muted { color: var(--text-muted); }
+  .data-table .secondary { color: var(--text-secondary); }
+
+  /* ── Bars ────────────────────────────────────────────────────────── */
+  .bar-container { width: 72px; height: 6px; background: rgba(255, 255, 255, 0.04); border-radius: 3px; overflow: hidden; display: inline-block; vertical-align: middle; margin-left: 8px; }
+  .bar-fill { height: 100%; border-radius: 3px; background: var(--accent); }
+
+  /* ── Callouts ───────────────────────────────────────────────────── */
+  .callout { background: var(--bg-code); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 0 12px 12px 0; padding: 16px 20px; margin: 20px 0; }
+  .callout.warning { border-left-color: var(--warning); }
+  .callout.positive { border-left-color: var(--positive); }
+  .callout.negative { border-left-color: var(--negative); }
+  .callout-title { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+  .callout-body { color: var(--text-secondary); font-size: 14px; line-height: 1.6; }
+
+  /* ── Two-column layout ──────────────────────────────────────────── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  @media (max-width: 768px) { .two-col { grid-template-columns: 1fr; } .kpi-card { flex-basis: calc(50% - 6px); } .report-header h1 { font-size: 28px; } section { padding: 24px 20px; } .report-header { padding: 40px 20px 24px; } }
+
+  /* ── Lists ───────────────────────────────────────────────────────── */
+  .insight-list { list-style: none; margin: 12px 0; }
+  .insight-list li { padding: 8px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.03); color: var(--text-secondary); font-size: 14px; line-height: 1.6; }
+  .insight-list li:last-child { border-bottom: none; }
+  .insight-list li strong { color: var(--text-primary); }
+
+  /* ── Tags ────────────────────────────────────────────────────────── */
+  .tag { display: inline-block; font-family: var(--font-mono); font-size: 11px; padding: 2px 8px; border-radius: 4px; background: var(--accent-dim); color: var(--accent); font-weight: 500; }
+  .tag.positive { background: rgba(16, 185, 129, 0.1); color: var(--positive); }
+  .tag.negative { background: rgba(239, 68, 68, 0.1); color: var(--negative); }
+  .tag.warning { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+  .tag.neutral { background: rgba(255, 255, 255, 0.04); color: var(--text-muted); }
+
+  /* ── Chart containers (inline SVG) ────────────────────────────────── */
+  .chart-wrapper { background: var(--bg-code); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin: 16px 0; }
+  .chart-wrapper svg { width: 100%; height: auto; }
+
+  /* ── Channel icon in table cell ─────────────────────────────────── */
+  .ch { display: flex; align-items: center; gap: 8px; }
+  .ch svg { flex-shrink: 0; }
+
+  /* ── Print ──────────────────────────────────────────────────────── */
+  @media print {
+    body { background: #fff; color: #000; }
+    .artifact-frame { border: 1px solid #ddd; }
+    .artifact-topbar, .artifact-bottombar { background: #f5f5f5; }
+    .kpi-card, .data-table-wrapper, .callout { border-color: #ddd; background: #fafafa; }
+    .data-table tbody tr:hover { background: transparent; }
+    .artifact-actions { display: none; }
+    :root { --text-primary: #000; --text-secondary: #444; --text-muted: #888; --accent: #4f46e5; --positive: #067a55; --negative: #b91c1c; }
+  }
+</style>
+</head>
+<body>
+
+<div class="artifact-frame">
+  <!-- Top bar (ArtifactFrame chrome) -->
+  <div class="artifact-topbar">
+    <div class="artifact-topbar-left">
+      <div class="artifact-logo">{{LOGO_SVG}}</div>
+      <span class="artifact-title">{{REPORT_TITLE}}</span>
+    </div>
+    <div class="artifact-actions">
+      <!-- Copy link -->
+      <button class="artifact-btn" title="Copy link to clipboard" onclick="navigator.clipboard.writeText(window.location.href)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" />
+          <polyline points="16 6 12 2 8 6" />
+          <line x1="12" y1="2" x2="12" y2="15" />
+        </svg>
+      </button>
+      <!-- Download / Print -->
+      <button class="artifact-btn" title="Print or save as PDF" onclick="window.print()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17h16" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Report content -->
+  <div class="report-content">
+    <div class="report-header">
+      <h1>{{REPORT_TITLE}}</h1>
+      <div class="subtitle">{{REPORT_SUBTITLE}}</div>
+      <div class="meta-row">
+        {{REPORT_META}}
+      </div>
+    </div>
+
+    {{REPORT_BODY}}
+  </div>
+
+  <!-- Bottom attribution -->
+  <div class="artifact-bottombar">
+    <span>Generated via SegmentStream MCP &middot; {{REPORT_DATE}}</span>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,212 @@
+---
+name: Report Generator
+description: Use this skill when the user asks to "create a report", "save this as a report", "make a nice report", "export to HTML", "generate an artifact", "build a dashboard", or when a substantial analysis has been completed and the user wants a polished, shareable output. Also trigger when the user says "save this", "export this", "make this pretty", or "I need to share this with my team". Generates branded reports in the SegmentStream dark theme style — as self-contained HTML files (Claude Code) or JSX artifacts (Cowork).
+---
+
+# Report Generator
+
+Create polished reports styled after the segmentstream.ai website. Supports two output formats depending on the environment:
+
+- **Claude Code** → Self-contained HTML file saved to `.artifacts/`, opened in browser
+- **Cowork** → JSX artifact rendered inline with React, Tailwind, and Recharts
+
+The design system, content structure, and components are identical across both formats.
+
+## When to Use
+
+Generate an HTML report when:
+- A substantial analysis has been completed and the user wants a shareable artifact
+- The user explicitly asks for a report, export, or dashboard
+- The conversation has produced data tables, insights, and recommendations that deserve a polished format
+
+Do not auto-generate reports without the user asking — this is an explicit output format, not a default.
+
+## Design System
+
+The template at `assets/template.html` implements the segmentstream.ai visual identity:
+
+- **Self-contained**: No external references — no CDN links, no @import URLs, no external fonts or scripts. System fonts only. All SVGs inlined. Reports must work fully offline.
+- **Dark theme**: Black background (#000), card backgrounds (#111), subtle borders (white at 8% opacity)
+- **Accent**: Indigo (#6366F1) for highlights, tags, and emphasis
+- **Typography**: System sans-serif for body text, system monospace for data/tables/labels
+- **Components**: KPI cards, data tables with channel icons, callout boxes, tags, inline SVG charts, bar indicators, two-column layouts
+- **Channel icons**: Read `references/channel-icons.md` for inline SVG icons of ad platforms. Only ad platforms get icons; organic channels render as plain text.
+
+Read `assets/template.html` to understand the full CSS class vocabulary before generating any report.
+
+## Output Format
+
+Detect the environment and choose the appropriate format:
+
+**Claude Code** (local terminal, has filesystem + `open` command):
+- Read `assets/template.html` and `assets/logo.svg`
+- Generate a self-contained HTML file (no external references, system fonts, inline SVGs)
+- Save to `.artifacts/{name}.html` and open in browser
+
+**Cowork** (no browser, artifacts render inline):
+- Read `references/jsx-format.md` for JSX component patterns and Tailwind token mapping
+- Generate a single-file React component using Tailwind + Recharts for charts
+- Write as a `.jsx` file — Cowork renders it as an artifact automatically
+
+The user can also explicitly request a format: "save as HTML" or "make a JSX artifact."
+
+## Workflow (HTML — Claude Code)
+
+### Step 1 — Read the template and logo
+
+Read `assets/template.html` to load the complete HTML template with all CSS styles and component patterns. Also read `assets/logo.svg` for the SegmentStream logo SVG. Both are essential — the template contains the full design system and the logo provides brand identity.
+
+### Step 2 — Assemble the report
+
+Replace the template placeholders:
+
+- `{{LOGO_SVG}}` — The contents of `assets/logo.svg` (inline SVG, not a file reference)
+- `{{REPORT_TITLE}}` — Main headline (e.g., "March 2026 Performance Report")
+- `{{REPORT_SUBTITLE}}` — One-line summary (e.g., "Channel performance, maturation analysis, and intent signals for Ribble Cycles")
+- `{{REPORT_DATE}}` — Current date in human-readable format (e.g., "16 March 2026")
+- `{{REPORT_META}}` — Meta tags as `<span>` elements, use `class="accent"` for emphasis. Example: `<span>Ribble Cycles</span><span>Conversion: <span class="accent">CRM + Online Orders</span></span><span>Attribution: <span class="accent">First Click 90d</span></span>`
+- `{{REPORT_BODY}}` — The main content, built from components below
+
+### Step 3 — Build the body from components
+
+Use these HTML patterns to construct `{{REPORT_BODY}}`. Each major section wraps in `<section>`:
+
+**KPI cards** — Use for top-level metrics:
+```html
+<div class="kpi-grid">
+  <div class="kpi-card">
+    <div class="kpi-label">Spend</div>
+    <div class="kpi-value">£38.8k</div>
+    <div class="kpi-change positive">+2% YoY</div>
+  </div>
+</div>
+```
+KPI change classes: `positive`, `negative`, `neutral`.
+
+**KPI grid layout:** Default is 3 columns. Add `kpi-grid-2` or `kpi-grid-4` to the `.kpi-grid` div for 2 or 4 columns. Partial last rows are center-aligned automatically. Avoid layouts that leave a single orphan card — if you have 7 KPIs, use 4-column (4+3) rather than 3-column (3+3+1).
+
+**Data tables** — Use for channel breakdowns, comparisons:
+```html
+<div class="data-table-wrapper">
+  <table class="data-table">
+    <thead><tr><th>Channel</th><th class="num">Cost</th></tr></thead>
+    <tbody><tr><td>Google Ads</td><td class="num">£24,090</td></tr></tbody>
+    <tfoot><tr><td>Total</td><td class="num">£38,800</td></tr></tfoot>
+  </table>
+</div>
+```
+Use `class="num"` for right-aligned numeric columns. Use `class="positive"`, `class="negative"`, or `class="accent"` on `<td>` for colored values.
+
+**Inline bars** — Use inside table cells for visual proportions:
+```html
+<td class="num">39%<div class="bar-container"><div class="bar-fill" style="width: 39%"></div></div></td>
+```
+
+**Callout boxes** — Use for key insights or warnings:
+```html
+<div class="callout">
+  <div class="callout-title">Key Insight</div>
+  <div class="callout-body">The conversion maturation gap is wider on social channels...</div>
+</div>
+```
+Variants: default (cyan), `callout warning`, `callout positive`, `callout negative`.
+
+**Tags** — Use inline for status labels:
+```html
+<span class="tag positive">+79%</span>
+<span class="tag negative">-48%</span>
+<span class="tag">First Click</span>
+```
+
+**Insight lists** — Use for bullet-point findings:
+```html
+<ul class="insight-list">
+  <li><strong>Shopping is the standout:</strong> 50 conversions at half the 2025 spend...</li>
+</ul>
+```
+
+**Timeseries chart** — Use inline SVG for daily/weekly trends (no external libraries). Draw inside a `.chart-wrapper` div with `<svg viewBox="0 0 800 220">`. Use polylines for data series, circles for data points, and text elements for axis labels.
+
+Chart color palette — every line on a chart must be a **distinct color**. Never use the same color for two series, even with different dash patterns:
+- `#6366F1` (indigo) — primary metric (e.g., sessions, spend)
+- `#10B981` (green) — positive/actual values (e.g., observed conversions)
+- `#F59E0B` (amber) — projected/estimated values
+- `#EF4444` (red) — negative/declining metrics
+- `#888888` (gray, dashed) — comparison/previous period
+
+Grid lines: `rgba(255,255,255,0.04)`. Axis labels: font-size 10, fill `#555`, font-family `var(--font-mono)`. Data point dots: r=3 for primary, r=2 for secondary. Add a legend row above the chart using small colored swatches.
+
+**Two-column layout** — Use for side-by-side content:
+```html
+<div class="two-col">
+  <div><!-- left content --></div>
+  <div><!-- right content --></div>
+</div>
+```
+
+### Step 4 — Write the file
+
+Save to `.artifacts/` with a descriptive kebab-case filename:
+```
+.artifacts/ribble-march-2026-performance.html
+```
+
+Create the `.artifacts/` directory if it does not exist.
+
+### Step 5 — Open in browser
+
+```bash
+open .artifacts/ribble-march-2026-performance.html
+```
+
+Tell the user the file path and that it's been opened.
+
+## Workflow (JSX — Cowork)
+
+### Step 1 — Read the JSX reference
+
+Read `references/jsx-format.md` for the complete component structure, Tailwind token mapping, and Recharts chart patterns. Also read `references/channel-icons.md` for ad platform SVGs.
+
+### Step 2 — Build the component
+
+Create a single `export default function ReportName()` component. All data is hardcoded as arrays/objects at the top of the function. Use:
+- Tailwind classes matching the design tokens (see JSX reference for mapping)
+- Recharts `<LineChart>` for timeseries (Recharts is pre-loaded in Cowork)
+- Inline SVG for channel icons (same SVGs as HTML version)
+- shadcn/ui components if helpful (available in Cowork)
+
+### Step 3 — Write the file
+
+Save as `.artifacts/{name}.jsx`. Cowork renders it as an inline artifact automatically.
+
+### Step 4 — Confirm
+
+Tell the user the artifact has been created and should render in Cowork's artifact panel.
+
+## Content Guidelines
+
+- **Lead with KPIs** — put the 4-6 most important numbers in a KPI grid at the top
+- **Tables are the backbone** — the SegmentStream aesthetic is data-forward; use tables generously for channel breakdowns, comparisons, maturation data
+- **Callouts for insights** — pull out the 2-3 key takeaways as callout boxes between tables
+- **Keep text tight** — section descriptions should be 1-2 sentences max; let the data speak
+- **Use tags for change indicators** — colored tags make YoY changes and status immediately scannable
+- **Format numbers cleanly** — use £, %, x for ROAS, k/M for large numbers, consistent decimal places
+- **Include a "What This Means" or "Recommendations" section** at the end with an insight list
+
+## Naming Convention
+
+Files should follow: `{client}-{topic}-{period}.{html|jsx}`
+
+Examples:
+- `ribble-march-2026-performance.html` (Claude Code)
+- `ribble-march-2026-performance.jsx` (Cowork)
+- `ribble-channel-maturation-q1-2026.html`
+
+## Error Handling
+
+| Issue | Response |
+|-------|----------|
+| No analysis data in conversation | Ask the user what data to include; do not generate an empty report |
+| Template file missing | Reconstruct from memory — the CSS is self-contained and documented above |
+| `.artifacts/` doesn't exist | Create it with `mkdir -p .artifacts/` |
+| `open` command fails | Provide the file path for manual opening |

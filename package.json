@@ -1,0 +1,27 @@
+{
+  "name": "@segmentstream/agent-skills",
+  "version": "0.1.0",
+  "description": "AI-powered marketing measurement analyst. Connects to SegmentStream for campaign reports, attribution analysis, and measurement strategy.",
+  "files": [
+    "agents",
+    "skills",
+    "commands",
+    ".claude-plugin",
+    ".cursor-plugin",
+    ".mcp.json",
+    "settings.json"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/segmentstream/agent-skills"
+  },
+  "license": "MIT",
+  "keywords": [
+    "marketing",
+    "attribution",
+    "analytics",
+    "measurement",
+    "campaign-performance",
+    "roas"
+  ]
+}

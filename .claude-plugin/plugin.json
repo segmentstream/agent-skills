@@ -1,0 +1,14 @@
+{
+  "name": "segmentstream",
+  "version": "0.1.0",
+  "description": "AI-powered marketing measurement analyst. Connects to SegmentStream for campaign reports, attribution analysis, and measurement strategy.",
+  "author": {
+    "name": "SegmentStream",
+    "email": "support@segmentstream.com",
+    "url": "https://segmentstream.com"
+  },
+  "homepage": "https://github.com/segmentstream/agent-skills",
+  "repository": "https://github.com/segmentstream/agent-skills",
+  "license": "MIT",
+  "keywords": ["mcp", "marketing", "attribution", "analytics", "measurement", "campaign-performance", "roas"]
+}
