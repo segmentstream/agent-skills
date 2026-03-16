@@ -20,6 +20,18 @@ Activate this skill in any of the following situations:
 
 ## Setup Flow
 
+### Step 0 -- Verify MCP connectivity
+
+Before anything else, confirm the SegmentStream MCP tools are reachable. Use `ToolSearch` with query `"segmentstream"` to check whether any `mcp__segmentstream__*` tools appear.
+
+**If tools are found:** proceed to Step 1.
+
+**If no tools are found:** the MCP server is not connected — the user likely hasn't completed OAuth authentication. Do the following:
+1. Tell the user the SegmentStream connector needs to be connected before setup can proceed.
+2. Call `mcp__mcp-registry__search_mcp_registry(keywords: ["segmentstream"])` to discover the connector's `directoryUuid`.
+3. Call `mcp__mcp-registry__suggest_connectors(uuids: [<directoryUuid>])` to present the Connect button.
+4. Stop here. Do not proceed to Step 1 until the user confirms they have connected and authenticated.
+
 ### Step 1 -- Check for existing settings
 
 Read `.claude/segmentstream.local.md` in the workspace root. If the file exists and contains valid YAML frontmatter with an `activeProjectId` and `projects` array, one or more projects are already configured. Proceed to Step 2. If the file does not exist, proceed to Step 3 (discovery).
@@ -183,6 +195,7 @@ The refresh flow re-fetches project configuration without re-running discovery. 
 
 | Error | Response |
 |-------|----------|
+| SegmentStream MCP tools not found via ToolSearch | The MCP connector is not authenticated. Use `search_mcp_registry` + `suggest_connectors` to guide the user through connecting (see Step 0). Do not attempt any `mcp__segmentstream__*` calls until tools are confirmed available. |
 | MCP connection failure (timeout, auth error) | Guide the user to check `SEGMENTSTREAM_MCP_URL` and API credentials. Suggest running `/mcp` to verify the server connection. |
 | `list_active_projects` returns empty | The API key may lack project access. Ask the user to verify permissions in SegmentStream settings. |
 | `get_project` returns 404 | The cached project ID is stale. Remove the project from the `projects` array and re-run setup. If it was the only project, delete the settings file and start fresh. |

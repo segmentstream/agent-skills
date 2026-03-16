@@ -27,6 +27,8 @@ Query and interpret campaign performance data from SegmentStream. This skill cov
 
 ### Step 1 -- Resolve project
 
+Before calling any SegmentStream MCP tool, verify tools are available via `ToolSearch`. If `mcp__segmentstream__*` tools are not found, stop and direct the user to run `/segmentstream:setup` which handles the MCP connectivity flow.
+
 Call `list_active_projects()` to get the `projectId`. If the user has multiple projects, ask which one to use.
 
 ### Step 2 -- Determine conversion and attribution model
