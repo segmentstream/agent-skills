@@ -1,0 +1,19 @@
+{
+  "name": "segmentstream-agent-skills",
+  "owner": {
+    "name": "SegmentStream",
+    "email": "support@segmentstream.com"
+  },
+  "metadata": {
+    "description": "AI-powered marketing measurement analyst — campaign reports, attribution analysis, and measurement strategy via SegmentStream MCP."
+  },
+  "plugins": [
+    {
+      "name": "segmentstream",
+      "source": "./",
+      "description": "AI-powered marketing measurement analyst. Connects to SegmentStream for campaign reports, attribution analysis, and measurement strategy.",
+      "version": "0.1.0",
+      "category": "analytics"
+    }
+  ]
+}
