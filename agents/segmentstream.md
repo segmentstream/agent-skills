@@ -109,10 +109,11 @@ The `activeProjectId` field determines which project's data is used for all oper
 Query and analyze marketing performance data: cost, revenue, ROAS, CPA, conversions, impressions, and clicks — broken down by campaign, channel, source, medium, date, or any available dimension.
 
 **When the user asks about campaign performance:**
-1. Use `list_report_configs` to find available reports for the project.
-2. Use `get_report_table` to fetch the relevant data with appropriate dimensions and metrics.
-3. Present results as a table with clear interpretation.
-4. Highlight top performers, underperformers, and notable trends.
+1. **Determine if the query needs conversions.** Cost-only questions (spend, CPC, impressions) can skip straight to querying. Attribution-dependent questions (ROAS, CPA, conversions, revenue, week-over-week performance) require a conversion and attribution model first.
+2. **Resolve conversion and attribution model before querying.** Check `.claude/segmentstream.local.md` for saved defaults. If defaults exist, state them and confirm: "Your defaults are **X** conversion with **Y** model — shall I use those?" If no defaults, present the options and ask the user to choose. Never query silently — the user must know which conversion and model the numbers are based on.
+3. Use `get_report_table` to fetch the relevant data with appropriate dimensions and metrics.
+4. Present results as a table with clear interpretation.
+5. Highlight top performers, underperformers, and notable trends.
 
 ### 2. Attribution Analysis
 
@@ -201,8 +202,10 @@ Accumulate learnings across conversations to provide increasingly personalized a
 For detailed knowledge and procedures, refer to these skills:
 
 - **Setup skill**: Project discovery, configuration, and `.claude/segmentstream.local.md` creation.
-- **Reports skill**: Detailed querying patterns, available dimensions and metrics, report configuration vocabulary.
+- **Reports skill**: Detailed querying patterns, available dimensions and metrics, filtering, sorting, and the full workflow for resolving conversions and attribution models before querying.
 - **Measurement skill**: Attribution philosophy, methodology deep-dives, incrementality testing, media mix modeling concepts.
+- **Report Generator skill**: Generate polished, branded HTML reports from completed analyses. Use when the user wants to save, export, or share results with their team.
+- **SDK Setup skill**: Prepare and customize the SegmentStream SDK tracking snippet for a client website — module selection, installation method, and conversion tracking setup.
 
 ## Error Handling
 

@@ -12,7 +12,6 @@ Query and interpret campaign performance data from SegmentStream. This skill cov
 ### Discovery
 
 - **`list_active_projects()`** -- Retrieve the user's SegmentStream projects. Every subsequent call requires a `projectId`.
-- **`list_report_configs(projectId)`** -- List available reports in a project. Returns report IDs and names.
 - **`list_conversions(projectId)`** -- List conversion definitions (e.g., Purchase, Lead, Signup). Each has an `id` and `name`.
 - **`list_attribution_models(projectId)`** -- List attribution models (e.g., Last non-direct click, First click, ML-based). Each has an `id` and `name`.
 - **`list_custom_dimensions(projectId)`** -- Discover project-specific custom dimensions (channel groupings, product categories, etc.). Custom dimensions use IDs like `custom_dimension_xxx`.
@@ -36,7 +35,7 @@ Report queries fall into two categories:
 
 **Cost-only queries** (spend, CPC, impressions, clicks, sessions) do not require the user to choose a conversion or attribution model. Examples: "How much did we spend on Google Ads last month?", "What's our CPC trend?", "Show clicks by campaign." Skip straight to Step 3.
 
-**Attribution-dependent queries** (ROAS, CPA, conversions, revenue) require a specific conversion and attribution model. Examples: "What's our ROAS by channel?", "Show conversions by campaign", "Which campaigns have the best CPA?"
+**Attribution-dependent queries** require a specific conversion and attribution model. This includes any query that involves ROAS, CPA, conversions, revenue, or any period-over-period performance comparison (week-over-week, month-over-month) — because comparing "performance" implicitly means comparing conversions and revenue, not just cost. Examples: "What's our ROAS by channel?", "Show conversions by campaign", "Which campaigns have the best CPA?", "How did we perform week over week?", "Compare this month to last month."
 
 For attribution-dependent queries, resolve conversion and attribution model before building any query:
 
