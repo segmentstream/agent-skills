@@ -1,6 +1,6 @@
 {
   "name": "segmentstream",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Marketing measurement agent. Connects to SegmentStream's measurement engine to analyze campaign performance, diagnose attribution issues, and provide actionable measurement advice — all through natural conversation.",
   "author": {
     "name": "SegmentStream",
@@ -10,5 +10,13 @@
   "homepage": "https://github.com/segmentstream/agent-skills",
   "repository": "https://github.com/segmentstream/agent-skills",
   "license": "MIT",
-  "keywords": ["mcp", "marketing", "attribution", "analytics", "measurement", "campaign-performance", "roas"]
+  "keywords": [
+    "mcp",
+    "marketing",
+    "attribution",
+    "analytics",
+    "measurement",
+    "campaign-performance",
+    "roas"
+  ]
 }
