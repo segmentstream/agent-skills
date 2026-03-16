@@ -12,7 +12,6 @@
       "name": "segmentstream",
       "source": "./",
       "description": "Marketing measurement agent. Connects to SegmentStream's measurement engine to analyze campaign performance, diagnose attribution issues, and provide actionable measurement advice — all through natural conversation.",
-      "version": "0.1.0",
       "category": "analytics"
     }
   ]
