@@ -1,6 +1,6 @@
 {
   "name": "@segmentstream/agent-skills",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "AI-powered marketing measurement analyst. Connects to SegmentStream for campaign reports, attribution analysis, and measurement strategy.",
   "files": [
     "agents",
