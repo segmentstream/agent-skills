@@ -106,17 +106,14 @@ projects:
     dataSources:
       - id: "ds-1"
         name: "Google Ads"
-    cachedAt: "2026-03-12T10:00:00Z"
-  - id: "def456"
-    name: "Another Company"
-    attributionModels: []
-    conversions: []
-    dataSources: []
+    defaults:
+      conversionId: "conv-1"
+      attributionModelId: "model-1"
     cachedAt: "2026-03-12T10:00:00Z"
 ---
 ```
 
-The `activeProjectId` field determines which project's data is used for all operations. This file is gitignored (project-specific, not shared across team).
+The `activeProjectId` field determines which project's data is used for all operations. The `defaults` block stores the user's last-confirmed conversion and attribution model for reports — propose these as defaults in subsequent queries. This file is gitignored (project-specific, not shared across team).
 
 ## Core Capabilities
 
@@ -170,39 +167,121 @@ Provide expert guidance on marketing measurement methodology.
 - Always ground recommendations in what is practically achievable with the user's current setup.
 - Refer to industry best practices but be honest about trade-offs.
 
-### 6. Data Export
+### 6. Budget Optimization & Portfolios
+
+Help users understand portfolio performance and budget allocation recommendations.
+
+**When the user asks about budget optimization, portfolio performance, or marginal ROAS:**
+1. Use `list_portfolios` to show configured portfolios.
+2. Use `get_portfolio_history` for performance trends — call with just `portfolio_id` for a summary, or with `start_date`/`end_date` for per-campaign breakdowns.
+3. Use `get_portfolio_optimization` for current optimization scenarios with marginal metrics and diminishing return curves.
+4. Explain recommendations in terms of marginal ROAS and where budget is over- or under-allocated.
+
+### 7. Incrementality Experiments
+
+Help users review geo holdout experiments and interpret incrementality results.
+
+**When the user asks about experiments, incrementality, or geo tests:**
+1. Use `list_experiments` to show all experiments and their status.
+2. Use `get_experiment` for full details including plots, preparation settings, and analysis results.
+3. Interpret results honestly — confidence intervals on geo holdouts are wide. Focus on binary conclusions (incremental or not) rather than precise iROAS numbers.
+
+### 8. Audiences
+
+Help users understand audience segments and their membership.
+
+**When the user asks about audiences, segments, or targeting:**
+1. Use `list_audiences` to show configured audiences (optionally filter by ML model or conversion).
+2. Use `get_audience` for details including the filter SQL and membership duration.
+3. Use `get_audiences_inclusion` for inclusion statistics across audiences.
+4. Use `query_audiences_by_client_id` to check which audiences a specific user belongs to.
+
+### 9. User Journey Debugging
+
+Debug individual user attribution paths to understand how conversions are attributed.
+
+**When the user asks to debug a specific user's journey or understand attribution for a particular conversion:**
+1. Use `get_user_journey` with an `anonymous_id` or `user_id` to see all sessions, attribution credits, conversions, and audience memberships.
+2. Walk through the journey step by step, explaining which touchpoints received credit and why.
+
+### 10. BigQuery Analysis
+
+Run custom SQL queries for deep analysis beyond what report tools provide.
+
+**When the user needs custom data exploration or the report tools don't support the query:**
+1. Use `bigquery_get_table_schema` first to verify table structure and available columns.
+2. Use `bigquery_execute_sql` to run read-only queries. Tables can be referenced without full qualification — the project's dataset is the default.
+3. Present results clearly and explain what the query found.
+
+### 11. Identity Graph & Data Quality
+
+Monitor identity resolution quality and data pipeline health.
+
+**When the user asks about identity resolution, user stitching, or data incidents:**
+1. Use `get_identity_graph_statistics` for stitching distribution and data completeness.
+2. Use `list_incidents` to check for active data quality alerts.
+3. Use `get_data_source_logs` for import log details when debugging a specific data source.
+4. Use `list_workflows` and `get_workflow_status` for pipeline run status.
+
+### 12. Classifiers & ML Models
+
+Review ML classifier configurations used for lead scoring or conversion prediction.
+
+**When the user asks about classifiers, scoring models, or ML predictions:**
+1. Use `list_classifiers` to show configured classifiers.
+2. Use `get_classifier` for full configuration details.
+3. Use `list_classifier_models` for available model types and pricing.
+
+### 13. Data Export
 
 Help users export data for further analysis.
 
 **When the user asks to export or download data:**
-1. Use `download_report_csv` to generate a CSV export.
-2. Provide the download link and explain what is included.
+1. Use `download_report_csv` to generate a CSV export. Returns a job ID.
+2. Use `get_download_job` with `type: "csv-v4"` to poll until the export is ready.
+3. Provide the download link and explain what is included.
 
 ## MCP Tools Reference
 
-Use the SegmentStream MCP tools as follows:
+All tools use `project_id` (snake_case). The full tool schemas are available via ToolSearch — use them for exact parameter names and enums.
 
-| Tool | When to Use |
-|------|-------------|
-| `list_active_projects` | Discover available projects during setup |
-| `get_project` | Get project details and configuration |
-| `list_report_configs` | Find available reports for a project |
-| `get_report_config` | Get report schema (available dimensions/metrics) |
-| `get_report_table` | Fetch report data as a table |
-| `get_report_chart` | Fetch report data as a time-series chart |
-| `download_report_csv` | Export report data as CSV |
-| `get_report_dimension_values` | Get possible values for a dimension (for filtering) |
-| `list_conversions` | List all conversion types |
-| `get_conversion` | Get conversion configuration details |
-| `get_conversion_statistics` | Get conversion volume and trend data |
-| `get_conversions_by_country` | Geographic conversion breakdown |
-| `list_attribution_models` | List attribution models |
-| `get_attribution_model` | Get attribution model configuration |
-| `list_data_sources` | List connected ad platforms |
-| `get_data_source` | Get data source status and config |
-| `get_cost_data_quality` | Check cost data completeness |
-| `list_data_streams` | List website data streams |
-| `get_data_stream` | Get data stream configuration |
+**Project & Config:**
+`list_active_projects`, `get_project`, `get_current_user`
+
+**Reports:**
+`list_report_configs`, `get_report_config`, `get_report_table`, `get_report_chart`, `get_report_dimension_values`, `list_custom_dimensions`, `get_custom_dimension`, `download_report_csv`, `get_download_job`
+
+Key report features: `channel` dimension is a built-in alias for the Channel custom dimension. `time_machine_date` parameter lets you query historical data as it looked on a specific date (essential for maturation analysis). `comparison_date_range` enables period-over-period comparisons.
+
+**Conversions & Attribution:**
+`list_conversions`, `get_conversion`, `get_conversion_statistics`, `get_conversions_by_country`, `list_attribution_models`, `get_attribution_model`, `get_sra_settings`
+
+**Data Sources & Streams:**
+`list_data_sources`, `get_data_source`, `get_data_source_logs`, `get_cost_data_quality`, `list_data_streams`, `get_data_stream`, `test_data_stream_connection`
+
+**Portfolios & Optimization:**
+`list_portfolios`, `get_portfolio_history`, `get_portfolio_optimization`
+
+**Audiences:**
+`list_audiences`, `get_audience`, `query_audiences_by_client_id`, `get_audiences_inclusion`
+
+**Experiments:**
+`list_experiments`, `get_experiment`, `list_experiment_custom_parameter_keys`, `get_conversions_by_country`
+
+**User Journeys:**
+`get_user_journey`, `debug_user_journey` (superadmin)
+
+**BigQuery:**
+`bigquery_execute_sql`, `bigquery_get_table_schema`
+
+**ML & Classifiers:**
+`list_classifiers`, `get_classifier`, `list_classifier_models`
+
+**Monitoring:**
+`list_incidents`, `list_workflows`, `get_workflow_status`, `get_identity_graph_statistics`
+
+**Debug (superadmin):**
+`get_report_bigquery_sql`, `debug_user_journey`
 
 ## Memory Usage
 

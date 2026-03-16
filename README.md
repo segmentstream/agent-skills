@@ -1,15 +1,24 @@
-# SegmentStream Marketing Analyst
+# SegmentStream Agent Skills
 
-Marketing measurement agent for [Claude Code](https://claude.com/claude-code) and [Cursor](https://cursor.com). Connects to SegmentStream's measurement engine to analyze campaign performance, diagnose attribution issues, and provide actionable measurement advice — all through natural conversation.
+<p align="center">
+  <img src="./assets/hero.png" alt="SegmentStream MCP — Ad Platforms, Data Sources, Measurement Engine, Web Dashboard, and AI Workspace" width="100%">
+</p>
+
+Marketing measurement agent powered by [SegmentStream](https://segmentstream.com). Analyzes campaign performance, diagnoses attribution issues, and provides actionable measurement advice — all through natural conversation. Works with Claude Code, Cursor, Claude.ai, Cowork, and any MCP-compatible client.
 
 ## Features
 
 - **Campaign performance reports** — Query cost, revenue, ROAS, CPA, and more by campaign, channel, source, or date. Data is presented with clear interpretation, not just raw numbers.
 - **Attribution analysis** — Compare last-click vs. ML-powered attribution to understand which channels truly drive conversions.
+- **Budget optimization** — Review portfolio performance, marginal ROAS, and diminishing return curves. Get data-driven budget reallocation recommendations.
+- **Incrementality experiments** — Analyze geo holdout test results and interpret incrementality findings.
+- **Audience insights** — Explore audience segments, membership statistics, and per-user audience queries.
+- **User journey debugging** — Trace individual user paths through sessions, touchpoints, and conversion events.
+- **BigQuery analysis** — Run custom SQL against your SegmentStream dataset for deep exploration beyond standard reports.
 - **Measurement strategy advice** — Get expert guidance on attribution approaches, incrementality testing, and common measurement pitfalls.
-- **Data source health monitoring** — Check whether your ad platform data is flowing correctly and spot gaps before they become problems.
-- **Conversion analysis** — Review conversion setup, volume trends, and geographic distribution.
-- **Project memory** — The agent remembers your preferred metrics, common queries, and past analyses across conversations.
+- **Data source health monitoring** — Check ad platform data flow, cost quality scores, import logs, and active incidents.
+- **Branded report generation** — Export analyses as polished HTML reports with the SegmentStream dark theme, or as JSX artifacts in Cowork.
+- **Project memory** — The agent remembers your preferred metrics, default conversion/attribution model, and past analyses across conversations.
 
 ## Installation
 
@@ -85,9 +94,14 @@ To reconfigure, delete the file and run `/segmentstream:setup` again, or use `/s
 
 The `settings.json` file at the plugin root tells Claude Code which agent to activate as the default when the plugin is enabled. The value `"agent": "segmentstream"` means the SegmentStream agent becomes the primary agent for the session, handling all marketing measurement and analytics queries automatically.
 
-## Cursor Support
+## Platform Support
 
-This plugin ships with both `.claude-plugin/` and `.cursor-plugin/` manifests, so it works in both Claude Code and Cursor out of the box. The agent definition, skills, and MCP configuration are shared across both platforms.
+This plugin works across the Claude ecosystem and beyond:
+
+- **Claude Code** — Full plugin support with skills, commands, and agent definition
+- **Claude.ai / Cowork** — MCP tools available via the SegmentStream connector; JSX artifact reports
+- **Cursor** — Ships with `.cursor-plugin/` manifest alongside `.claude-plugin/`
+- **Any MCP client** — The SegmentStream MCP server works with any client that supports the Model Context Protocol
 
 ## Staying Up to Date
 

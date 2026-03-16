@@ -163,25 +163,19 @@ Tell the user the file path and that it's been opened.
 
 ## Workflow (JSX — Cowork)
 
-### Step 1 — Read the JSX reference
+### Step 1 — Read the brand constraints
 
-Read `references/jsx-format.md` for the complete component structure, Tailwind token mapping, and Recharts chart patterns. Also read `references/channel-icons.md` for ad platform SVGs.
+Read `references/jsx-format.md` for the SegmentStream brand colors, typography rules, chart color palette, and Cowork constraints. This is intentionally minimal — it defines the brand identity and lets you design the layout.
 
-### Step 2 — Build the component
+### Step 2 — Design and build the component
 
-Create a single `export default function ReportName()` component. All data is hardcoded as arrays/objects at the top of the function. Use:
-- Tailwind classes matching the design tokens (see JSX reference for mapping)
-- Recharts `<LineChart>` for timeseries (Recharts is pre-loaded in Cowork)
-- Inline SVG for channel icons (same SVGs as HTML version)
-- shadcn/ui components if helpful (available in Cowork)
+Create a single `export default function ReportName()` component. Use your design judgment with shadcn/ui, Tailwind, and Recharts. The reference file gives you the color palette and a few hard rules (distinct chart colors, mono for numbers, dark theme). Everything else — layout, spacing, component choice, how to structure the data — use your best instincts. The goal is a polished, professional report that feels like it belongs on segmentstream.ai.
 
-### Step 3 — Write the file
+Also read `references/channel-icons.md` for ad platform SVG icons to inline in channel tables.
 
-Save as `.artifacts/{name}.jsx`. Cowork renders it as an inline artifact automatically.
+### Step 3 — Write and confirm
 
-### Step 4 — Confirm
-
-Tell the user the artifact has been created and should render in Cowork's artifact panel.
+Save as `.artifacts/{name}.jsx`. Tell the user it should render in Cowork's artifact panel.
 
 ## Content Guidelines
 
