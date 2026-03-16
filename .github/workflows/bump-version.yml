@@ -10,12 +10,10 @@ on:
 jobs:
   bump:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.AUTO_BUMP_TOKEN }}
 
       - name: Bump patch version in plugin.json
         run: |
