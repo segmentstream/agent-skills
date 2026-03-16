@@ -5,13 +5,13 @@
     "email": "support@segmentstream.com"
   },
   "metadata": {
-    "description": "AI-powered marketing measurement analyst — campaign reports, attribution analysis, and measurement strategy via SegmentStream MCP."
+    "description": "Marketing measurement agent for Claude Code and Cursor. Connects to SegmentStream's measurement engine to analyze campaign performance, diagnose attribution issues, and provide actionable measurement advice."
   },
   "plugins": [
     {
       "name": "segmentstream",
       "source": "./",
-      "description": "AI-powered marketing measurement analyst. Connects to SegmentStream for campaign reports, attribution analysis, and measurement strategy.",
+      "description": "Marketing measurement agent. Connects to SegmentStream's measurement engine to analyze campaign performance, diagnose attribution issues, and provide actionable measurement advice — all through natural conversation.",
       "version": "0.1.0",
       "category": "analytics"
     }

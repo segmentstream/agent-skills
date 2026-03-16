@@ -1,7 +1,7 @@
 {
   "name": "segmentstream",
   "version": "0.1.0",
-  "description": "AI-powered marketing measurement analyst. Connects to SegmentStream for campaign reports, attribution analysis, and measurement strategy.",
+  "description": "Marketing measurement agent. Connects to SegmentStream's measurement engine to analyze campaign performance, diagnose attribution issues, and provide actionable measurement advice — all through natural conversation.",
   "author": {
     "name": "SegmentStream",
     "email": "support@segmentstream.com",
