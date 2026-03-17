@@ -209,7 +209,7 @@
     gap: 14px;
     min-width: 0;
   }
-  .artifact-logo svg { height: 26px; width: auto; display: block; }
+  .artifact-logo svg { height: 32px; width: auto; display: block; }
   .artifact-actions {
     display: flex;
     align-items: center;
@@ -316,7 +316,7 @@
   .data-table .secondary { color: var(--text-secondary); }
 
   /* ── Bars ───────────────────────────────────────────────────────── */
-  .bar-container { width: 72px; height: 6px; background: rgba(255, 255, 255, 0.04); border-radius: 3px; overflow: hidden; display: inline-block; vertical-align: middle; margin-left: 8px; }
+  .bar-container { width: 72px; height: 6px; background: rgba(255, 255, 255, 0.10); border-radius: 3px; overflow: hidden; display: inline-block; vertical-align: middle; margin-left: 8px; }
   .bar-fill { height: 100%; border-radius: 3px; background: var(--accent); }
 
   /* ── Callouts ──────────────────────────────────────────────────── */
@@ -396,14 +396,14 @@
     align-items: center;
     gap: 6px;
     font-family: var(--font-mono);
-    font-size: 13px;
-    font-weight: 500;
+    font-size: 14px;
+    font-weight: 600;
     font-variant-numeric: tabular-nums;
   }
   .delta .arrow {
     display: inline-flex;
     align-items: center;
-    font-size: 12px;
+    font-size: 14px;
   }
   .delta.positive { color: var(--positive); }
   .delta.positive .arrow::before { content: "\2191"; }
@@ -412,7 +412,7 @@
   .delta.neutral { color: var(--text-secondary); }
   .delta.neutral .arrow::before { content: "\2192"; }
   .delta .delta-value { font-weight: 600; }
-  .delta .delta-pct { font-size: 12px; opacity: 0.8; }
+  .delta .delta-pct { font-size: 14px; }
 
   /* ── Status traffic light ──────────────────────────────────────── */
   .status-light {
@@ -541,7 +541,7 @@
   .bar-list-track {
     flex: 1;
     height: 8px;
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(255, 255, 255, 0.10);
     border-radius: 4px;
     overflow: hidden;
   }
@@ -631,7 +631,7 @@
   .progress-bar-track {
     width: 100%;
     height: 8px;
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(255, 255, 255, 0.10);
     border-radius: 4px;
     overflow: hidden;
   }
@@ -672,7 +672,7 @@
   }
   .comparison-row-delta {
     font-family: var(--font-mono);
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 600;
     padding: 2px 8px;
     border-radius: 4px;
@@ -701,7 +701,7 @@
   .comparison-bar-track {
     flex: 1;
     height: 8px;
-    background: rgba(255, 255, 255, 0.04);
+    background: rgba(255, 255, 255, 0.10);
     border-radius: 4px;
     overflow: hidden;
   }
@@ -1054,7 +1054,7 @@
             <td class="num">198</td>
             <td class="num cell-heat-2">&pound;93</td>
             <td class="num cell-heat-4">4.6x</td>
-            <td class="num">&pound;18.4k<span class="bar-container"><span class="bar-fill" style="width:100%"></span></span></td>
+            <td class="num">47%<div class="bar-container"><div class="bar-fill" style="width:100%"></div></div></td>
             <td><span class="sparkline"><svg width="64" height="20" viewBox="0 0 64 20"><polyline points="2,16 10,14 18,12 26,11 34,9 42,8 50,6 58,4 62,3" fill="none" stroke="var(--chart-1)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td>
           </tr>
           <tr>
@@ -1063,7 +1063,7 @@
             <td class="num">34</td>
             <td class="num cell-heat-2">&pound;94</td>
             <td class="num cell-heat-3">3.8x</td>
-            <td class="num">&pound;3.2k<span class="bar-container"><span class="bar-fill" style="width:17%"></span></span></td>
+            <td class="num">8%<div class="bar-container"><div class="bar-fill" style="width:17%"></div></div></td>
             <td><span class="sparkline"><svg width="64" height="20" viewBox="0 0 64 20"><polyline points="2,12 10,13 18,11 26,10 34,11 42,9 50,8 58,7 62,6" fill="none" stroke="var(--chart-3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td>
           </tr>
 
@@ -1077,7 +1077,7 @@
             <td class="num">128</td>
             <td class="num cell-heat-2">&pound;99</td>
             <td class="num cell-heat-3">3.9x</td>
-            <td class="num">&pound;12.6k<span class="bar-container"><span class="bar-fill" style="width:69%"></span></span></td>
+            <td class="num">33%<div class="bar-container"><div class="bar-fill" style="width:69%"></div></div></td>
             <td><span class="sparkline"><svg width="64" height="20" viewBox="0 0 64 20"><polyline points="2,14 10,12 18,13 26,10 34,8 42,9 50,7 58,5 62,4" fill="none" stroke="var(--chart-2)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td>
           </tr>
           <tr>
@@ -1086,7 +1086,7 @@
             <td class="num">31</td>
             <td class="num cell-heat-1">&pound;91</td>
             <td class="num cell-heat-2">3.2x</td>
-            <td class="num">&pound;2.8k<span class="bar-container"><span class="bar-fill" style="width:15%"></span></span></td>
+            <td class="num">7%<div class="bar-container"><div class="bar-fill" style="width:15%"></div></div></td>
             <td><span class="sparkline"><svg width="64" height="20" viewBox="0 0 64 20"><polyline points="2,10 10,11 18,9 26,12 34,10 42,11 50,9 58,10 62,8" fill="none" stroke="var(--chart-4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td>
           </tr>
           <tr>
@@ -1095,7 +1095,7 @@
             <td class="num">21</td>
             <td class="num cell-heat-3">&pound;85</td>
             <td class="num cell-heat-1">2.8x</td>
-            <td class="num">&pound;1.8k<span class="bar-container"><span class="bar-fill" style="width:10%"></span></span></td>
+            <td class="num">5%<div class="bar-container"><div class="bar-fill" style="width:10%"></div></div></td>
             <td><span class="sparkline"><svg width="64" height="20" viewBox="0 0 64 20"><polyline points="2,15 10,14 18,16 26,13 34,14 42,12 50,13 58,11 62,10" fill="none" stroke="var(--chart-5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td>
           </tr>
         </tbody>
@@ -1106,7 +1106,7 @@
             <td class="num">412</td>
             <td class="num">&pound;94</td>
             <td class="num">4.2x</td>
-            <td class="num">&pound;38.8k</td>
+            <td class="num">100%</td>
             <td></td>
           </tr>
         </tfoot>
