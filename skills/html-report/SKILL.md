@@ -81,7 +81,11 @@ Use these HTML patterns to construct `{{REPORT_BODY}}`. Each major section wraps
   </div>
 </div>
 ```
-KPI change classes: `positive`, `negative`, `neutral`.
+KPI change classes: `positive`, `negative`, `neutral`. Only apply the color class to the change value itself — if you include a comparison label (e.g., "vs Jan 2026"), keep it in a separate neutral element so it doesn't inherit the red/green color:
+```html
+<div class="kpi-change negative">-45%</div>
+<div class="kpi-change neutral">vs Jan 2026</div>
+```
 
 **KPI grid layout:** Default is 3 columns. Add `kpi-grid-2` or `kpi-grid-4` to the `.kpi-grid` div for 2 or 4 columns. Partial last rows are center-aligned automatically. Avoid layouts that leave a single orphan card — if you have 7 KPIs, use 4-column (4+3) rather than 3-column (3+3+1).
 
@@ -97,16 +101,16 @@ KPI change classes: `positive`, `negative`, `neutral`.
 ```
 Use `class="num"` for right-aligned numeric columns. Use `class="positive"`, `class="negative"`, or `class="accent"` on `<td>` for colored values.
 
-**Inline bars** — Use inside table cells for visual proportions:
+**Inline bars** — Use inside table cells for visual proportions. Only use when there is no separate percentage column already showing the same data — avoid redundancy.
 ```html
 <td class="num">39%<div class="bar-container"><div class="bar-fill" style="width: 39%"></div></div></td>
 ```
 
-**Callout boxes** — Use for key insights or warnings:
+**Callout boxes** — Use for key insights or warnings. Wrap inline numbers (currencies, percentages, ROAS multipliers) in `<span class="num">` and entity names (channels, campaigns, products) in `<strong>` so they stand out from the surrounding text.
 ```html
 <div class="callout">
   <div class="callout-title">Key Insight</div>
-  <div class="callout-body">The conversion maturation gap is wider on social channels...</div>
+  <div class="callout-body">At <span class="num">2.1x</span> ROAS and <span class="num">£129</span> CPA, Generic Broad sits 50% below the account average.</div>
 </div>
 ```
 Variants: default (cyan), `callout warning`, `callout positive`, `callout negative`.
@@ -118,10 +122,10 @@ Variants: default (cyan), `callout warning`, `callout positive`, `callout negati
 <span class="tag">First Click</span>
 ```
 
-**Insight lists** — Use for bullet-point findings:
+**Insight lists** — Use for bullet-point findings and recommendations. Wrap inline numbers in `<span class="num">` so they pop visually:
 ```html
 <ul class="insight-list">
-  <li><strong>Shopping is the standout:</strong> 50 conversions at half the 2025 spend...</li>
+  <li><strong>Shopping is the standout:</strong> <span class="num">50</span> conversions at half the 2025 spend, delivering <span class="num">4.8x</span> ROAS.</li>
 </ul>
 ```
 
@@ -143,6 +147,55 @@ Grid lines: `rgba(255,255,255,0.04)`. Axis labels: font-size 10, fill `#555`, fo
   <div><!-- right content --></div>
 </div>
 ```
+
+**Drill-down (expandable rows)** — Use CSS grid (not table+flexbox) so parent and child columns align. Wrap in `.data-table-wrapper` for consistent card styling:
+```html
+<div class="data-table-wrapper">
+  <div class="drill-down">
+    <div class="drill-head">
+      <span>Channel / Campaign</span>
+      <span class="num">Cost</span>
+      <span class="num">Conv.</span>
+      <span class="num">CPA</span>
+      <span class="num">ROAS</span>
+    </div>
+    <details open>
+      <summary>
+        <span class="drill-name"><span class="chevron"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="4,2 8,6 4,10"/></svg></span> ICON_SVG Channel Name <span class="tag">58% of spend</span></span>
+        <span class="num">£18,420</span>
+        <span class="num">198</span>
+        <span class="num">£93</span>
+        <span class="num">4.6x</span>
+      </summary>
+      <div class="drill-child">
+        <span>Campaign Name <span class="tag">Best</span></span>
+        <span class="num">£6,200</span>
+        <span class="num">82</span>
+        <span class="num">£76</span>
+        <span class="num">5.2x</span>
+      </div>
+    </details>
+    <div class="drill-total">
+      <span>Total</span>
+      <span class="num">£31,060</span>
+      <span class="num">326</span>
+      <span class="num">£95</span>
+      <span class="num">4.3x</span>
+    </div>
+  </div>
+</div>
+```
+Place status tags ("Best", "Review") next to the campaign name in the first column, not after the last metric. Use `<details open>` on the first channel so it's expanded by default.
+
+### Inline number highlighting
+
+Anywhere numbers appear in prose text — callout bodies, insight lists, recommendations, executive summaries — wrap them in `<span class="num">`. This renders them in monospace with the indigo accent color, making data scannable within paragraphs. Applies to currencies (£129), percentages (48%), ROAS multipliers (2.1x), and counts (50 conversions).
+
+Similarly, wrap entity names (campaign names, channel names, product names) in `<strong>` so they stand out from the surrounding descriptive text.
+
+### Channel icons everywhere
+
+Use inline SVG channel icons (from `references/channel-icons.md`) not just in table cells but in any component that shows channel names — bar lists, category bars, drill-down parent rows. Wrap with the `.ch` pattern: `<div class="ch">ICON_SVG <span>Channel Name</span></div>`.
 
 ### Step 4 — Write the file
 

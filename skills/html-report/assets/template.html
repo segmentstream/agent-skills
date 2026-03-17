@@ -83,7 +83,7 @@
     min-width: 0;
   }
 
-  .artifact-logo svg { height: 20px; width: auto; display: block; }
+  .artifact-logo svg { height: 32px; width: auto; display: block; }
 
   .artifact-title {
     font-size: 13px;
@@ -157,7 +157,6 @@
   .report-header .subtitle {
     font-size: 16px;
     color: var(--text-secondary);
-    max-width: 680px;
     line-height: 1.6;
   }
 
@@ -180,7 +179,7 @@
   section:last-child { border-bottom: none; }
   section h2 { font-size: 24px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 6px; }
   section h3 { font-size: 18px; font-weight: 600; letter-spacing: -0.01em; margin-top: 28px; margin-bottom: 10px; }
-  section .section-desc { color: var(--text-secondary); font-size: 15px; margin-bottom: 20px; max-width: 720px; line-height: 1.6; }
+  section .section-desc { color: var(--text-secondary); font-size: 15px; margin-bottom: 20px; line-height: 1.6; }
 
   /* ── KPI Grid ───────────────────────────────────────────────────── */
   /* Use flexbox for even distribution + center-aligned partial rows */
@@ -261,6 +260,7 @@
   .callout.negative { border-left-color: var(--negative); }
   .callout-title { font-weight: 600; font-size: 15px; margin-bottom: 4px; color: var(--text-primary); }
   .callout-body { color: var(--text-secondary); font-size: 14px; line-height: 1.6; }
+  .callout-body .num { font-family: var(--font-mono); color: var(--accent-text); font-weight: 600; font-variant-numeric: tabular-nums; }
 
   /* ── Two-column layout ──────────────────────────────────────────── */
   .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
@@ -271,6 +271,7 @@
   .insight-list li { padding: 8px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.03); color: var(--text-secondary); font-size: 14px; line-height: 1.6; }
   .insight-list li:last-child { border-bottom: none; }
   .insight-list li strong { color: var(--text-primary); }
+  .insight-list .num { font-family: var(--font-mono); color: var(--accent-text); font-weight: 600; font-variant-numeric: tabular-nums; }
 
   /* ── Tags ────────────────────────────────────────────────────────── */
   .tag { display: inline-block; font-family: var(--font-mono); font-size: 11px; padding: 2px 8px; border-radius: 4px; background: var(--accent-dim); color: var(--accent-text); font-weight: 500; }
@@ -294,9 +295,9 @@
 
   /* ── Comparison Table (period-over-period) ───────────────────────── */
   .comparison-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  .comparison-table thead th { font-family: var(--font-mono); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-secondary); padding: 12px 12px 8px; border-bottom: 1px solid var(--border); text-align: left; white-space: nowrap; }
+  .comparison-table thead th { font-family: var(--font-mono); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-secondary); padding: 12px 16px 8px; border-bottom: 1px solid var(--border); text-align: left; white-space: nowrap; }
   .comparison-table thead th.num { text-align: right; }
-  .comparison-table tbody td { padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--text-primary); vertical-align: middle; }
+  .comparison-table tbody td { padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--text-primary); vertical-align: middle; }
   .comparison-table tbody tr:last-child td { border-bottom: none; }
   .comparison-table .total-row td { font-weight: 600; border-bottom: 1px solid var(--border); }
   .comp-cell { display: flex; align-items: center; justify-content: flex-end; gap: 8px; }
@@ -311,25 +312,28 @@
   .comparison-table .change-tag.neutral { background: rgba(255,255,255,0.05); color: var(--text-secondary); }
 
   /* ── Drill-Down (expandable parent → child) ─────────────────────── */
+  /* Uses CSS grid so parent summaries and child rows share column widths */
   .drill-down { width: 100%; font-size: 13px; }
-  .drill-down table { width: 100%; border-collapse: collapse; }
-  .drill-down thead th { font-family: var(--font-mono); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-secondary); padding: 12px 12px 8px; border-bottom: 1px solid var(--border); text-align: left; white-space: nowrap; }
-  .drill-down thead th.num { text-align: right; }
-  .drill-down tbody td { padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--text-primary); font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
-  .drill-down tbody td.num { text-align: right; }
-  .drill-down tbody tr:last-child td { border-bottom: none; }
+  .drill-down .drill-head,
+  .drill-down details summary,
+  .drill-down .drill-child { display: grid; grid-template-columns: minmax(200px, 1fr) repeat(4, minmax(80px, 120px)); align-items: center; padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .drill-down .drill-head { font-family: var(--font-mono); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-secondary); padding: 12px 16px 8px; border-bottom: 1px solid var(--border); }
+  .drill-down .drill-head span.num,
+  .drill-down details summary span.num,
+  .drill-down .drill-child span.num { text-align: right; font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
   .drill-down details { margin: 0; }
-  .drill-down details summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 8px; padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .drill-down details summary { list-style: none; cursor: pointer; }
   .drill-down details summary::-webkit-details-marker { display: none; }
   .drill-down details summary::marker { display: none; content: ""; }
+  .drill-down .drill-name { display: flex; align-items: center; gap: 8px; min-width: 0; }
   .drill-down .chevron { display: inline-block; width: 12px; height: 12px; transition: transform 150ms ease-out; flex-shrink: 0; }
   .drill-down .chevron svg { width: 12px; height: 12px; display: block; }
   .drill-down details[open] .chevron { transform: rotate(90deg); }
-  .drill-down .parent-metrics { display: flex; gap: 0; margin-left: auto; font-family: var(--font-mono); font-variant-numeric: tabular-nums; font-size: 13px; }
-  .drill-down .parent-metric { width: 100px; text-align: right; padding: 0 12px; }
-  .drill-down .child-row td { color: var(--text-secondary); }
-  .drill-down .child-row td:first-child { padding-left: 44px; }
-  .drill-down .child-row:last-child td { border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .drill-down .drill-child { color: var(--text-secondary); }
+  .drill-down .drill-child span:first-child { padding-left: 28px; display: flex; align-items: center; gap: 8px; }
+  .drill-down .drill-child:last-child { border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .drill-down .drill-total { display: grid; grid-template-columns: minmax(200px, 1fr) repeat(4, minmax(80px, 120px)); align-items: center; padding: 12px 16px; font-weight: 600; border-top: 1px solid var(--border); }
+  .drill-down .drill-total span.num { text-align: right; font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
 
   /* ── Three-column grid ──────────────────────────────────────────── */
   .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin: 20px 0; }
@@ -461,7 +465,6 @@
   <div class="artifact-topbar">
     <div class="artifact-topbar-left">
       <div class="artifact-logo">{{LOGO_SVG}}</div>
-      <span class="artifact-title">{{REPORT_TITLE}}</span>
     </div>
     <div class="artifact-actions">
       <!-- Copy link -->
@@ -474,8 +477,10 @@
       </button>
       <!-- Download / Print -->
       <button class="artifact-btn" title="Print or save as PDF" onclick="window.print()">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17h16" />
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+          <polyline points="7 10 12 15 17 10" />
+          <line x1="12" y1="15" x2="12" y2="3" />
         </svg>
       </button>
     </div>

@@ -1,0 +1,77 @@
+{
+  "skill_name": "html-report",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Generate a channel performance report with this data:\n\nGoogle Ads: £30,891 cost (prev: £44,142), 54 conversions (prev: 104), CPA £572 (prev: £424), ROAS 2.40x (prev: 3.54x)\nMeta Ads: £16,567 cost (prev: £17,952), 17 conversions (prev: 25), CPA £975 (prev: £718), ROAS 2.03x (prev: 3.26x)\nTotal: £47,458 cost (prev: £62,093), 71 conversions (prev: 129), CPA £668 (prev: £481), ROAS 2.27x (prev: 3.46x)\n\nPeriod: Feb 2026 vs Jan 2026. Client: Acme Corp. Attribution: First Click 90D.",
+      "expected_output": "Dark-themed HTML report with KPI summary cards, comparison table with stacked-cell layout showing current/previous values and delta badges, SegmentStream branding",
+      "files": [],
+      "expectations": [
+        "Output is a complete self-contained HTML file",
+        "Uses dark theme with --bg-primary: #000000",
+        "Contains .comparison-table with .comp-cell stacked layout",
+        "Delta badges use correct color semantics: CPA increase is red, cost decrease is red",
+        "Contains KPI cards showing totals",
+        "All numeric values use monospace font family",
+        "Has SegmentStream logo SVG in the topbar",
+        "Has 'Generated via SegmentStream MCP' in footer",
+        "No external CSS or font imports"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Generate a minimal summary report with just these KPIs:\n\nTotal Spend: £47,458\nTotal Conversions: 71\nBlended CPA: £668\nBlended ROAS: 2.27x\n\nPeriod: February 2026. Client: Acme Corp. Keep it simple — just the headline numbers, no tables or charts needed.",
+      "expected_output": "Minimal dark-themed HTML report with 4 KPI cards, no unnecessary components",
+      "files": [],
+      "expectations": [
+        "Output is a complete self-contained HTML file",
+        "Contains exactly 4 KPI cards",
+        "Uses .kpi-grid layout",
+        "Does not contain a .data-table or .comparison-table (user asked for minimal)",
+        "Has SegmentStream branding (logo + footer)",
+        "Dark theme applied"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Generate a campaign breakdown report with this data:\n\nGoogle Ads campaigns:\n- Brand Exact: £6,200 spend, 82 conversions, CPA £76, ROAS 5.2x\n- Shopping Smart: £5,400 spend, 68 conversions, CPA £79, ROAS 4.8x\n- Generic Broad: £3,600 spend, 28 conversions, CPA £129, ROAS 2.1x\n\nMeta Ads campaigns:\n- Retargeting DPA: £4,800 spend, 52 conversions, CPA £92, ROAS 4.1x\n- Prospecting LAL: £3,200 spend, 38 conversions, CPA £84, ROAS 3.4x\n\nPeriod: February 2026. Client: Acme Corp. Group campaigns by channel.",
+      "expected_output": "Campaign-level data table with row group headers separating Google Ads and Meta Ads sections, channel icons",
+      "files": [],
+      "expectations": [
+        "Contains .data-table with campaign rows",
+        "Has .row-group-header rows for Google Ads and Meta Ads",
+        "Channel icons (SVG) appear next to platform names",
+        "Numeric columns are right-aligned with monospace font",
+        "Table wrapped in .data-table-wrapper",
+        "Dark theme and SegmentStream branding"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Generate an interactive channel report using expandable rows. Data:\n\nGoogle Ads (total: £18,420 cost, 198 conv, CPA £93, ROAS 4.6x):\n- Brand Exact: £6,200, 82 conv, CPA £76, ROAS 5.2x\n- Shopping Smart: £5,400, 68 conv, CPA £79, ROAS 4.8x\n- Generic Broad: £3,600, 28 conv, CPA £129, ROAS 2.1x\n\nMeta Ads (total: £12,640 cost, 128 conv, CPA £99, ROAS 3.9x):\n- Retargeting DPA: £4,800, 52 conv, CPA £92, ROAS 4.1x\n- Prospecting LAL: £3,200, 38 conv, CPA £84, ROAS 3.4x\n\nPeriod: February 2026. Make channel rows expandable to show their campaigns.",
+      "expected_output": "Drill-down table with expandable channel rows using HTML details/summary elements",
+      "files": [],
+      "expectations": [
+        "Uses .drill-down component with <details> and <summary> elements",
+        "Chevron SVG icons for expand/collapse",
+        "Parent rows show channel totals with icons",
+        "Child campaign rows are indented",
+        "At least one <details> element is open by default",
+        "Dark theme and SegmentStream branding"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Generate a performance summary with insights. Data:\n\nOverall: spend down 24%, conversions down 45%, CPA up 39%, ROAS down 34%.\n\nKey insight: Both channels show a disproportionate conversion drop relative to spend reduction, indicating worsening unit economics.\n\nGoogle Ads: CPA increased from £424 to £572 despite lower spend.\nMeta Ads: ROAS dropped from 3.26x to 2.03x.\n\nPeriod: Feb vs Jan 2026. Client: Acme Corp. Include an executive summary and warning callouts for problem areas.",
+      "expected_output": "Report with executive summary block, warning/negative callouts highlighting problem areas",
+      "files": [],
+      "expectations": [
+        "Contains .exec-summary block with narrative text",
+        "Contains at least one .callout.warning or .callout.negative",
+        "Callout has .callout-title and .callout-body",
+        "Summary uses <strong> for emphasis and .num for inline numbers",
+        "Dark theme and SegmentStream branding"
+      ]
+    }
+  ]
+}

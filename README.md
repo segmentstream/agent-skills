@@ -25,6 +25,7 @@ Marketing measurement agent powered by [SegmentStream](https://segmentstream.com
 ### Option 1: Claude Marketplace
 
 ```bash
+claude plugin marketplace add https://github.com/segmentstream/agent-skills
 claude plugin install segmentstream
 ```
 
