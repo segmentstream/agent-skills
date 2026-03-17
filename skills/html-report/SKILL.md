@@ -216,9 +216,9 @@ Tell the user the file path and that it's been opened.
 
 ## Workflow (JSX — Cowork)
 
-### Step 1 — Read the brand constraints
+### Step 1 — Read the brand constraints and logo
 
-Read `references/jsx-format.md` for the SegmentStream brand colors, typography rules, chart color palette, and Cowork constraints. This is intentionally minimal — it defines the brand identity and lets you design the layout.
+Read `references/jsx-format.md` for the SegmentStream brand colors, typography rules, chart color palette, and Cowork constraints. Also read `references/logo-component.jsx` and copy the logo component verbatim into your report (do not truncate or simplify the SVG). This is intentionally minimal — it defines the brand identity and lets you design the layout.
 
 ### Step 2 — Design and build the component
 
