@@ -1,0 +1,1376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SegmentStream Report Component Gallery</title>
+<style>
+  :root {
+    --bg-primary: #000000;
+    --bg-secondary: #0A0A0A;
+    --bg-code: #111111;
+    --bg-code-hover: #161616;
+    --accent: #6366F1;
+    --accent-dim: rgba(99, 102, 241, 0.15);
+    --text-primary: #EDEDED;
+    --text-secondary: #888888;
+    --text-muted: #555555;
+    --border: rgba(255, 255, 255, 0.08);
+    --border-hover: rgba(255, 255, 255, 0.15);
+    --positive: #10B981;
+    --negative: #EF4444;
+    --warning: #F59E0B;
+    --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'SF Mono', 'Cascadia Mono', 'Consolas', 'Liberation Mono', monospace;
+    --container: 1200px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Gallery Chrome ────────────────────────────────────────────── */
+  .gallery-header {
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 60px 24px 40px;
+    border-bottom: 1px solid var(--border);
+  }
+  .gallery-header h1 {
+    font-size: 36px;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+  }
+  .gallery-header .subtitle {
+    font-size: 16px;
+    color: var(--text-secondary);
+    max-width: 680px;
+    line-height: 1.6;
+  }
+  .gallery-header .meta-row {
+    display: flex;
+    gap: 24px;
+    margin-top: 20px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    flex-wrap: wrap;
+  }
+  .gallery-header .meta-row .accent { color: var(--accent); }
+
+  /* ── Category Sections ─────────────────────────────────────────── */
+  .category {
+    max-width: var(--container);
+    margin: 0 auto;
+    padding: 48px 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .category:last-child { border-bottom: none; }
+  .category-title {
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+  }
+  .category-desc {
+    color: var(--text-secondary);
+    font-size: 15px;
+    margin-bottom: 32px;
+    max-width: 720px;
+    line-height: 1.6;
+  }
+
+  /* ── Component Block ───────────────────────────────────────────── */
+  .component-block {
+    margin-bottom: 40px;
+  }
+  .component-block:last-child { margin-bottom: 0; }
+  .component-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .component-label .tag-new {
+    font-size: 9px;
+    padding: 1px 6px;
+    border-radius: 3px;
+    background: var(--accent-dim);
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════
+     EXISTING COMPONENTS (from template.html)
+     ══════════════════════════════════════════════════════════════════ */
+
+  /* ── Artifact Frame ────────────────────────────────────────────── */
+  .artifact-frame {
+    max-width: var(--container);
+    margin: 0 auto;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .artifact-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background: var(--bg-code);
+    border-bottom: 1px solid var(--border);
+  }
+  .artifact-topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+  }
+  .artifact-logo svg { height: 20px; width: auto; display: block; }
+  .artifact-title {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .artifact-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+    margin-left: 12px;
+  }
+  .artifact-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: transparent;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 150ms ease;
+    color: rgba(255, 255, 255, 0.3);
+  }
+  .artifact-btn:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text-secondary);
+  }
+  .artifact-bottombar {
+    padding: 8px 20px;
+    background: var(--bg-code);
+    border-top: 1px solid var(--border);
+  }
+  .artifact-bottombar span {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.35);
+  }
+
+  .report-content { background: var(--bg-secondary); }
+
+  /* ── Section headers ───────────────────────────────────────────── */
+  section { padding: 40px; border-bottom: 1px solid var(--border); }
+  section:last-child { border-bottom: none; }
+  section h2 { font-size: 24px; font-weight: 600; letter-spacing: -0.02em; margin-bottom: 6px; }
+  section h3 { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; margin-top: 28px; margin-bottom: 10px; }
+  section .section-desc { color: var(--text-secondary); font-size: 15px; margin-bottom: 20px; max-width: 720px; line-height: 1.6; }
+
+  /* ── KPI Grid ──────────────────────────────────────────────────── */
+  .kpi-grid { display: flex; flex-wrap: wrap; gap: 12px; margin: 24px 0; justify-content: center; }
+  .kpi-card { flex: 0 1 calc(33.333% - 8px); min-width: 200px; }
+  .kpi-grid-2 .kpi-card { flex-basis: calc(50% - 6px); }
+  .kpi-grid-4 .kpi-card { flex-basis: calc(25% - 9px); }
+  .kpi-card { background: var(--bg-code); border: 1px solid var(--border); border-radius: 12px; padding: 20px; transition: border-color 0.2s ease; }
+  .kpi-card:hover { border-color: var(--border-hover); }
+  .kpi-label { font-family: var(--font-mono); font-size: 9px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.1em; color: rgba(255,255,255,0.35); margin-bottom: 8px; }
+  .kpi-value { font-family: var(--font-mono); font-size: 24px; font-weight: 600; color: var(--text-primary); letter-spacing: -0.02em; }
+  .kpi-change { font-family: var(--font-mono); font-size: 11px; margin-top: 6px; }
+  .kpi-change.positive { color: var(--positive); }
+  .kpi-change.negative { color: var(--negative); }
+  .kpi-change.neutral { color: var(--text-muted); }
+
+  /* ── Data Tables ───────────────────────────────────────────────── */
+  .data-table-wrapper { background: var(--bg-code); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin: 16px 0; }
+  .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .data-table thead th {
+    text-align: left;
+    padding: 12px 16px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.3);
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .data-table thead th.num { text-align: right; }
+  .data-table tbody td {
+    padding: 10px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    white-space: nowrap;
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: var(--text-primary);
+  }
+  .data-table tbody td.num {
+    text-align: right;
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+  .data-table tbody tr:last-child td { border-bottom: none; }
+  .data-table tbody tr:hover { background: var(--bg-code-hover); }
+  .data-table tfoot td {
+    padding: 12px 16px;
+    font-weight: 600;
+    border-top: 1px solid var(--border);
+    color: var(--text-primary);
+    font-size: 13px;
+  }
+  .data-table tfoot td.num { text-align: right; font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+  .data-table .positive { color: var(--positive); }
+  .data-table .negative { color: var(--negative); }
+  .data-table .accent { color: var(--accent); }
+  .data-table .muted { color: var(--text-muted); }
+  .data-table .secondary { color: var(--text-secondary); }
+
+  /* ── Bars ───────────────────────────────────────────────────────── */
+  .bar-container { width: 72px; height: 6px; background: rgba(255, 255, 255, 0.04); border-radius: 3px; overflow: hidden; display: inline-block; vertical-align: middle; margin-left: 8px; }
+  .bar-fill { height: 100%; border-radius: 3px; background: var(--accent); }
+
+  /* ── Callouts ──────────────────────────────────────────────────── */
+  .callout { background: var(--bg-code); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 0 12px 12px 0; padding: 16px 20px; margin: 20px 0; }
+  .callout.warning { border-left-color: var(--warning); }
+  .callout.positive { border-left-color: var(--positive); }
+  .callout.negative { border-left-color: var(--negative); }
+  .callout-title { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+  .callout-body { color: var(--text-secondary); font-size: 14px; line-height: 1.6; }
+
+  /* ── Two-column layout ─────────────────────────────────────────── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 20px 0; }
+  @media (max-width: 768px) { .two-col { grid-template-columns: 1fr; } .kpi-card { flex-basis: calc(50% - 6px); } }
+
+  /* ── Lists ──────────────────────────────────────────────────────── */
+  .insight-list { list-style: none; margin: 12px 0; }
+  .insight-list li { padding: 8px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.03); color: var(--text-secondary); font-size: 14px; line-height: 1.6; }
+  .insight-list li:last-child { border-bottom: none; }
+  .insight-list li strong { color: var(--text-primary); }
+
+  /* ── Tags ───────────────────────────────────────────────────────── */
+  .tag { display: inline-block; font-family: var(--font-mono); font-size: 11px; padding: 2px 8px; border-radius: 4px; background: var(--accent-dim); color: var(--accent); font-weight: 500; }
+  .tag.positive { background: rgba(16, 185, 129, 0.1); color: var(--positive); }
+  .tag.negative { background: rgba(239, 68, 68, 0.1); color: var(--negative); }
+  .tag.warning { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+  .tag.neutral { background: rgba(255, 255, 255, 0.04); color: var(--text-muted); }
+
+  /* ── Chart containers ──────────────────────────────────────────── */
+  .chart-wrapper { background: var(--bg-code); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin: 16px 0; }
+  .chart-wrapper svg { width: 100%; height: auto; }
+
+  /* ── Channel icon in table cell ────────────────────────────────── */
+  .ch { display: flex; align-items: center; gap: 8px; }
+  .ch svg { flex-shrink: 0; }
+
+
+  /* ══════════════════════════════════════════════════════════════════
+     NEW COMPONENTS
+     ══════════════════════════════════════════════════════════════════ */
+
+  /* ── Three-column grid ─────────────────────────────────────────── */
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin: 20px 0; }
+  @media (max-width: 960px) { .three-col { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 600px) { .three-col { grid-template-columns: 1fr; } }
+
+  /* ── Delta indicator ───────────────────────────────────────────── */
+  .delta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+  }
+  .delta .arrow {
+    display: inline-flex;
+    align-items: center;
+    font-size: 11px;
+  }
+  .delta.positive { color: var(--positive); }
+  .delta.positive .arrow::before { content: "\2191"; }
+  .delta.negative { color: var(--negative); }
+  .delta.negative .arrow::before { content: "\2193"; }
+  .delta.neutral { color: var(--text-muted); }
+  .delta.neutral .arrow::before { content: "\2192"; }
+  .delta .delta-value { font-weight: 600; }
+  .delta .delta-pct { font-size: 11px; opacity: 0.7; }
+
+  /* ── Status traffic light ──────────────────────────────────────── */
+  .status-light {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .status-light .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .status-light.green .dot { background: var(--positive); box-shadow: 0 0 6px rgba(16, 185, 129, 0.4); }
+  .status-light.green { color: var(--positive); }
+  .status-light.amber .dot { background: var(--warning); box-shadow: 0 0 6px rgba(245, 158, 11, 0.4); }
+  .status-light.amber { color: var(--warning); }
+  .status-light.red .dot { background: var(--negative); box-shadow: 0 0 6px rgba(239, 68, 68, 0.4); }
+  .status-light.red { color: var(--negative); }
+
+  /* ── Sparkline cell ────────────────────────────────────────────── */
+  .sparkline { display: inline-block; vertical-align: middle; }
+  .sparkline svg { display: block; }
+
+  /* ── Heatmap cell coloring ─────────────────────────────────────── */
+  .cell-heat-1 { background: rgba(99, 102, 241, 0.06); }
+  .cell-heat-2 { background: rgba(99, 102, 241, 0.12); }
+  .cell-heat-3 { background: rgba(99, 102, 241, 0.20); }
+  .cell-heat-4 { background: rgba(99, 102, 241, 0.30); }
+  .cell-heat-5 { background: rgba(99, 102, 241, 0.42); }
+
+  /* ── Row group header ──────────────────────────────────────────── */
+  .row-group-header td {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    padding: 14px 16px 8px !important;
+    border-bottom: 1px solid var(--border) !important;
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  /* ── Donut chart ───────────────────────────────────────────────── */
+  .donut-chart {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    background: var(--bg-code);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin: 16px 0;
+  }
+  .donut-chart .donut-svg { flex-shrink: 0; }
+  .donut-chart .donut-center-value {
+    font-family: var(--font-mono);
+    font-size: 18px;
+    font-weight: 600;
+    fill: var(--text-primary);
+  }
+  .donut-chart .donut-center-label {
+    font-family: var(--font-mono);
+    font-size: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    fill: var(--text-muted);
+  }
+  .donut-chart .donut-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .donut-chart .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+  }
+  .donut-chart .legend-swatch {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .donut-chart .legend-label { color: var(--text-secondary); }
+  .donut-chart .legend-value {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-primary);
+    margin-left: auto;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Bar list ──────────────────────────────────────────────────── */
+  .bar-list {
+    background: var(--bg-code);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 16px 0;
+  }
+  .bar-list-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    position: relative;
+  }
+  .bar-list-item + .bar-list-item { border-top: 1px solid rgba(255, 255, 255, 0.03); }
+  .bar-list-label {
+    font-size: 13px;
+    color: var(--text-primary);
+    width: 120px;
+    flex-shrink: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .bar-list-track {
+    flex: 1;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .bar-list-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: var(--accent);
+    transition: width 0.3s ease;
+  }
+  .bar-list-value {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-secondary);
+    width: 60px;
+    text-align: right;
+    flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Category bar ──────────────────────────────────────────────── */
+  .category-bar {
+    background: var(--bg-code);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 16px 0;
+  }
+  .category-bar-track {
+    display: flex;
+    height: 12px;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .category-bar-segment {
+    height: 100%;
+    transition: width 0.3s ease;
+  }
+  .category-bar-segment:first-child { border-radius: 6px 0 0 6px; }
+  .category-bar-segment:last-child { border-radius: 0 6px 6px 0; }
+  .category-bar-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .category-bar-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+  }
+  .category-bar-legend-swatch {
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .category-bar-legend-label { color: var(--text-secondary); }
+  .category-bar-legend-value {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-primary);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Progress bar ──────────────────────────────────────────────── */
+  .progress-bar {
+    margin: 16px 0;
+  }
+  .progress-bar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+  }
+  .progress-bar-label {
+    font-size: 13px;
+    color: var(--text-primary);
+  }
+  .progress-bar-pct {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+    font-variant-numeric: tabular-nums;
+  }
+  .progress-bar-track {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: var(--accent);
+    transition: width 0.3s ease;
+  }
+  .progress-bar-fill.positive { background: var(--positive); }
+  .progress-bar-fill.warning { background: var(--warning); }
+  .progress-bar-fill.negative { background: var(--negative); }
+  .progress-bar-detail {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 6px;
+  }
+
+  /* ── Comparison row ────────────────────────────────────────────── */
+  .comparison-row {
+    background: var(--bg-code);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin: 12px 0;
+  }
+  .comparison-row-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .comparison-row-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+  .comparison-row-delta {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+  .comparison-row-delta.positive { background: rgba(16, 185, 129, 0.1); color: var(--positive); }
+  .comparison-row-delta.negative { background: rgba(239, 68, 68, 0.1); color: var(--negative); }
+  .comparison-row-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .comparison-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .comparison-bar-period {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    width: 48px;
+    flex-shrink: 0;
+  }
+  .comparison-bar-track {
+    flex: 1;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .comparison-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+  }
+  .comparison-bar-fill.current { background: var(--accent); }
+  .comparison-bar-fill.previous { background: rgba(255, 255, 255, 0.12); }
+  .comparison-bar-value {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-secondary);
+    width: 60px;
+    text-align: right;
+    flex-shrink: 0;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Executive summary ─────────────────────────────────────────── */
+  .exec-summary {
+    background: var(--bg-code);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 12px 12px 0;
+    padding: 24px 28px;
+    margin: 20px 0;
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--text-secondary);
+  }
+  .exec-summary strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+  .exec-summary .num {
+    font-family: var(--font-mono);
+    color: var(--accent);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+  .exec-summary p + p { margin-top: 12px; }
+
+  /* ── Annotation ────────────────────────────────────────────────── */
+  .annotation {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    margin: 12px 0;
+    line-height: 1.5;
+  }
+  .annotation::before {
+    content: "* ";
+    color: var(--text-muted);
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     GALLERY HEADER
+     ═══════════════════════════════════════════════════════════════════ -->
+<div class="gallery-header">
+  <h1>SegmentStream Report Component Gallery</h1>
+  <div class="subtitle">All 26 report components rendered with sample Ribble Cycles marketing data. Each component is shown with its CSS class name. New components are tagged.</div>
+  <div class="meta-row">
+    <span>Period <span class="accent">March 2026</span></span>
+    <span>Components <span class="accent">26</span></span>
+    <span>Categories <span class="accent">7</span></span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     CATEGORY 1: LAYOUT & STRUCTURE
+     ═══════════════════════════════════════════════════════════════════ -->
+<div class="category">
+  <h2 class="category-title">1. Layout &amp; Structure</h2>
+  <p class="category-desc">Top-level containers and grid systems for organising report content.</p>
+
+  <!-- Artifact Frame -->
+  <div class="component-block">
+    <div class="component-label">.artifact-frame</div>
+    <div class="artifact-frame">
+      <div class="artifact-topbar">
+        <div class="artifact-topbar-left">
+          <div class="artifact-logo">
+            <svg height="20" viewBox="0 0 120 20" fill="none"><text x="0" y="15" fill="#EDEDED" font-family="system-ui, sans-serif" font-size="14" font-weight="600">SegmentStream</text></svg>
+          </div>
+          <span class="artifact-title">Ribble Cycles — March 2026 Performance</span>
+        </div>
+        <div class="artifact-actions">
+          <button class="artifact-btn" title="Copy link"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></button>
+          <button class="artifact-btn" title="Print"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17h16"/></svg></button>
+        </div>
+      </div>
+      <div class="report-content" style="padding: 24px 40px;">
+        <p style="color: var(--text-secondary); font-size: 14px;">Report content renders inside this frame.</p>
+      </div>
+      <div class="artifact-bottombar">
+        <span>Generated via SegmentStream MCP &middot; 17 March 2026</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section headers -->
+  <div class="component-block">
+    <div class="component-label">section h2, h3, .section-desc</div>
+    <div style="background: var(--bg-code); border: 1px solid var(--border); border-radius: 12px; overflow: hidden;">
+      <section style="border-bottom: none;">
+        <h2>Section Heading (h2)</h2>
+        <p class="section-desc">Section descriptions provide context for the data below. They use the secondary text color and cap at 720px width.</p>
+        <h3>Subsection Heading (h3)</h3>
+      </section>
+    </div>
+  </div>
+
+  <!-- Two-column grid -->
+  <div class="component-block">
+    <div class="component-label">.two-col</div>
+    <div class="two-col">
+      <div style="background: var(--bg-code); border: 1px solid var(--border); border-radius: 12px; padding: 20px;">
+        <p style="color: var(--text-secondary); font-size: 13px;">Left column content</p>
+      </div>
+      <div style="background: var(--bg-code); border: 1px solid var(--border); border-radius: 12px; padding: 20px;">
+        <p style="color: var(--text-secondary); font-size: 13px;">Right column content</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Three-column grid (NEW) -->
+  <div class="component-block">
+    <div class="component-label">.three-col <span class="tag-new">New</span></div>
+    <div class="three-col">
+      <div style="background: var(--bg-code); border: 1px solid var(--border); border-radius: 12px; padding: 20px;">
+        <p style="color: var(--text-secondary); font-size: 13px;">Column 1</p>
+      </div>
+      <div style="background: var(--bg-code); border: 1px solid var(--border); border-radius: 12px; padding: 20px;">
+        <p style="color: var(--text-secondary); font-size: 13px;">Column 2</p>
+      </div>
+      <div style="background: var(--bg-code); border: 1px solid var(--border); border-radius: 12px; padding: 20px;">
+        <p style="color: var(--text-secondary); font-size: 13px;">Column 3</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     CATEGORY 2: METRICS & KPIs
+     ═══════════════════════════════════════════════════════════════════ -->
+<div class="category">
+  <h2 class="category-title">2. Metrics &amp; KPIs</h2>
+  <p class="category-desc">Cards, indicators, and status signals for key performance metrics.</p>
+
+  <!-- KPI Cards -->
+  <div class="component-block">
+    <div class="component-label">.kpi-grid + .kpi-card (3-col default)</div>
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">Total Spend</div>
+        <div class="kpi-value">&pound;38,842</div>
+        <div class="kpi-change positive">&uarr; 12.4% vs Feb</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Conversions</div>
+        <div class="kpi-value">412</div>
+        <div class="kpi-change positive">&uarr; 8.2% vs Feb</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Blended ROAS</div>
+        <div class="kpi-value">4.2x</div>
+        <div class="kpi-change negative">&darr; 3.1% vs Feb</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KPI Grid 4-col -->
+  <div class="component-block">
+    <div class="component-label">.kpi-grid.kpi-grid-4 (4-col variant)</div>
+    <div class="kpi-grid kpi-grid-4">
+      <div class="kpi-card">
+        <div class="kpi-label">Spend</div>
+        <div class="kpi-value">&pound;38.8k</div>
+        <div class="kpi-change positive">&uarr; 12.4%</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Conversions</div>
+        <div class="kpi-value">412</div>
+        <div class="kpi-change positive">&uarr; 8.2%</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">ROAS</div>
+        <div class="kpi-value">4.2x</div>
+        <div class="kpi-change negative">&darr; 3.1%</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">CPA</div>
+        <div class="kpi-value">&pound;94</div>
+        <div class="kpi-change positive">&uarr; 5.7%</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KPI Grid 2-col -->
+  <div class="component-block">
+    <div class="component-label">.kpi-grid.kpi-grid-2 (2-col variant)</div>
+    <div class="kpi-grid kpi-grid-2">
+      <div class="kpi-card">
+        <div class="kpi-label">Revenue</div>
+        <div class="kpi-value">&pound;163,138</div>
+        <div class="kpi-change positive">&uarr; 9.1% vs Feb</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Avg Order Value</div>
+        <div class="kpi-value">&pound;396</div>
+        <div class="kpi-change neutral">&rarr; 0.2% vs Feb</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delta indicator (NEW) -->
+  <div class="component-block">
+    <div class="component-label">.delta <span class="tag-new">New</span></div>
+    <div style="display: flex; gap: 32px; flex-wrap: wrap; align-items: center;">
+      <span class="delta positive">
+        <span class="arrow"></span>
+        <span class="delta-value">&pound;4,312</span>
+        <span class="delta-pct">(+12.4%)</span>
+      </span>
+      <span class="delta negative">
+        <span class="arrow"></span>
+        <span class="delta-value">0.13x</span>
+        <span class="delta-pct">(-3.1%)</span>
+      </span>
+      <span class="delta neutral">
+        <span class="arrow"></span>
+        <span class="delta-value">&pound;0.82</span>
+        <span class="delta-pct">(0.0%)</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- Status traffic light (NEW) -->
+  <div class="component-block">
+    <div class="component-label">.status-light <span class="tag-new">New</span></div>
+    <div style="display: flex; gap: 32px; flex-wrap: wrap; align-items: center;">
+      <span class="status-light green"><span class="dot"></span> On Track</span>
+      <span class="status-light amber"><span class="dot"></span> Needs Review</span>
+      <span class="status-light red"><span class="dot"></span> Below Target</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     CATEGORY 3: TABLES & DATA
+     ═══════════════════════════════════════════════════════════════════ -->
+<div class="category">
+  <h2 class="category-title">3. Tables &amp; Data</h2>
+  <p class="category-desc">Tabular data with inline visualisations, heatmaps, and grouping.</p>
+
+  <!-- Data table with channel icons, inline bars, sparklines, heatmap cells, row groups -->
+  <div class="component-block">
+    <div class="component-label">.data-table + .ch + .bar-container + .sparkline + .cell-heat-* + .row-group-header <span class="tag-new">New: sparkline, heatmap, row-group</span></div>
+    <div class="data-table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Channel</th>
+            <th class="num">Spend</th>
+            <th class="num">Conv.</th>
+            <th class="num">CPA</th>
+            <th class="num">ROAS</th>
+            <th class="num">Share</th>
+            <th>Trend</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Row group: Paid Search -->
+          <tr class="row-group-header">
+            <td colspan="7">Paid Search</td>
+          </tr>
+          <tr>
+            <td><div class="ch"><svg width="16" height="16" viewBox="0 0 24 24" fill="#4285F4"><path d="M3.9998 22.9291C1.7908 22.9291 0 21.1383 0 18.9293s1.7908-3.9998 3.9998-3.9998 3.9998 1.7908 3.9998 3.9998-1.7908 3.9998-3.9998 3.9998zm19.4643-6.0004L15.4632 3.072C14.3586 1.1587 11.9121.5028 9.9988 1.6074S7.4295 5.1585 8.5341 7.0718l8.0009 13.8567c1.1046 1.9133 3.5511 2.5679 5.4644 1.4646 1.9134-1.1046 2.568-3.5511 1.4647-5.4644zM7.5137 4.8438L1.5645 15.1484A4.5 4.5 0 0 1 4 14.4297c2.5597-.0075 4.6248 2.1585 4.4941 4.7148l3.2168-5.5723-3.6094-6.25c-.4499-.7793-.6322-1.6394-.5878-2.4784z"/></svg> <span>Google Ads</span></div></td>
+            <td class="num">&pound;18,420</td>
+            <td class="num">198</td>
+            <td class="num cell-heat-2">&pound;93</td>
+            <td class="num cell-heat-4">4.6x</td>
+            <td class="num">&pound;18.4k<span class="bar-container"><span class="bar-fill" style="width:100%"></span></span></td>
+            <td><span class="sparkline"><svg width="64" height="20" viewBox="0 0 64 20"><polyline points="2,16 10,14 18,12 26,11 34,9 42,8 50,6 58,4 62,3" fill="none" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td>
+          </tr>
+          <tr>
+            <td><div class="ch"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="0" y="0" width="11.408" height="11.408" fill="#F25022"/><rect x="12.594" y="0" width="11.406" height="11.408" fill="#7FBA00"/><rect x="0" y="12.594" width="11.408" height="11.406" fill="#00A4EF"/><rect x="12.594" y="12.594" width="11.406" height="11.406" fill="#FFB900"/></svg> <span>Microsoft Ads</span></div></td>
+            <td class="num">&pound;3,180</td>
+            <td class="num">34</td>
+            <td class="num cell-heat-2">&pound;94</td>
+            <td class="num cell-heat-3">3.8x</td>
+            <td class="num">&pound;3.2k<span class="bar-container"><span class="bar-fill" style="width:17%"></span></span></td>
+            <td><span class="sparkline"><svg width="64" height="20" viewBox="0 0 64 20"><polyline points="2,12 10,13 18,11 26,10 34,11 42,9 50,8 58,7 62,6" fill="none" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td>
+          </tr>
+
+          <!-- Row group: Paid Social -->
+          <tr class="row-group-header">
+            <td colspan="7">Paid Social</td>
+          </tr>
+          <tr>
+            <td><div class="ch"><svg width="16" height="16" viewBox="0 0 24 24" fill="#0081FB"><path d="M6.915 4.03c-1.968 0-3.683 1.28-4.871 3.113C.704 9.208 0 11.883 0 14.449c0 .706.07 1.369.21 1.973a6.624 6.624 0 0 0 .265.86 5.297 5.297 0 0 0 .371.761c.696 1.159 1.818 1.927 3.593 1.927 1.497 0 2.633-.671 3.965-2.444.76-1.012 1.144-1.626 2.663-4.32l.756-1.339.186-.325c.061.1.121.196.183.3l2.152 3.595c.724 1.21 1.665 2.556 2.47 3.314 1.046.987 1.992 1.22 3.06 1.22 1.075 0 1.876-.355 2.455-.843a3.743 3.743 0 0 0 .81-.973c.542-.939.861-2.127.861-3.745 0-2.72-.681-5.357-2.084-7.45-1.282-1.912-2.957-2.93-4.716-2.93-1.047 0-2.088.467-3.053 1.308-.652.57-1.257 1.29-1.82 2.05-.69-.875-1.335-1.547-1.958-2.056-1.182-.966-2.315-1.303-3.454-1.303zm10.16 2.053c1.147 0 2.188.758 2.992 1.999 1.132 1.748 1.647 4.195 1.647 6.4 0 1.548-.368 2.9-1.839 2.9-.58 0-1.027-.23-1.664-1.004-.496-.601-1.343-1.878-2.832-4.358l-.617-1.028a44.908 44.908 0 0 0-1.255-1.98c.07-.109.141-.224.211-.327 1.12-1.667 2.118-2.602 3.358-2.602zm-10.201.553c1.265 0 2.058.791 2.675 1.446.307.327.737.871 1.234 1.579l-1.02 1.566c-.757 1.163-1.882 3.017-2.837 4.338-1.191 1.649-1.81 1.817-2.486 1.817-.524 0-1.038-.237-1.383-.794-.263-.426-.464-1.13-.464-2.046 0-2.221.63-4.535 1.66-6.088.454-.687.964-1.226 1.533-1.533a2.264 2.264 0 0 1 1.088-.285z"/></svg> <span>Meta Ads</span></div></td>
+            <td class="num">&pound;12,640</td>
+            <td class="num">128</td>
+            <td class="num cell-heat-2">&pound;99</td>
+            <td class="num cell-heat-3">3.9x</td>
+            <td class="num">&pound;12.6k<span class="bar-container"><span class="bar-fill" style="width:69%"></span></span></td>
+            <td><span class="sparkline"><svg width="64" height="20" viewBox="0 0 64 20"><polyline points="2,14 10,12 18,13 26,10 34,8 42,9 50,7 58,5 62,4" fill="none" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td>
+          </tr>
+          <tr>
+            <td><div class="ch"><svg width="16" height="16" viewBox="0 0 24 24" fill="#EDEDED"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg> <span>TikTok Ads</span></div></td>
+            <td class="num">&pound;2,810</td>
+            <td class="num">31</td>
+            <td class="num cell-heat-1">&pound;91</td>
+            <td class="num cell-heat-2">3.2x</td>
+            <td class="num">&pound;2.8k<span class="bar-container"><span class="bar-fill" style="width:15%"></span></span></td>
+            <td><span class="sparkline"><svg width="64" height="20" viewBox="0 0 64 20"><polyline points="2,10 10,11 18,9 26,12 34,10 42,11 50,9 58,10 62,8" fill="none" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td>
+          </tr>
+          <tr>
+            <td><div class="ch"><svg width="16" height="16" viewBox="0 0 24 24" fill="#0A66C2"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> <span>LinkedIn Ads</span></div></td>
+            <td class="num">&pound;1,792</td>
+            <td class="num">21</td>
+            <td class="num cell-heat-3">&pound;85</td>
+            <td class="num cell-heat-1">2.8x</td>
+            <td class="num">&pound;1.8k<span class="bar-container"><span class="bar-fill" style="width:10%"></span></span></td>
+            <td><span class="sparkline"><svg width="64" height="20" viewBox="0 0 64 20"><polyline points="2,15 10,14 18,16 26,13 34,14 42,12 50,13 58,11 62,10" fill="none" stroke="#6366F1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td><strong>Total</strong></td>
+            <td class="num">&pound;38,842</td>
+            <td class="num">412</td>
+            <td class="num">&pound;94</td>
+            <td class="num">4.2x</td>
+            <td class="num">&pound;38.8k</td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+
+  <!-- Heatmap cells detail -->
+  <div class="component-block">
+    <div class="component-label">.cell-heat-1 through .cell-heat-5 <span class="tag-new">New</span></div>
+    <div class="data-table-wrapper">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Class</th>
+            <th class="num">Heat 1</th>
+            <th class="num">Heat 2</th>
+            <th class="num">Heat 3</th>
+            <th class="num">Heat 4</th>
+            <th class="num">Heat 5</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="color: var(--text-secondary);">Opacity ramp</td>
+            <td class="num cell-heat-1">6%</td>
+            <td class="num cell-heat-2">12%</td>
+            <td class="num cell-heat-3">20%</td>
+            <td class="num cell-heat-4">30%</td>
+            <td class="num cell-heat-5">42%</td>
+          </tr>
+          <tr>
+            <td style="color: var(--text-secondary);">Sample CPA</td>
+            <td class="num cell-heat-1">&pound;112</td>
+            <td class="num cell-heat-2">&pound;98</td>
+            <td class="num cell-heat-3">&pound;86</td>
+            <td class="num cell-heat-4">&pound;72</td>
+            <td class="num cell-heat-5">&pound;61</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     CATEGORY 4: CHARTS & VISUALIZATION
+     ═══════════════════════════════════════════════════════════════════ -->
+<div class="category">
+  <h2 class="category-title">4. Charts &amp; Visualisation</h2>
+  <p class="category-desc">Inline SVG charts, donut breakdowns, ranked bar lists, and segmented category bars.</p>
+
+  <!-- Timeseries chart -->
+  <div class="component-block">
+    <div class="component-label">.chart-wrapper (inline SVG timeseries)</div>
+    <div class="chart-wrapper">
+      <svg viewBox="0 0 600 200" preserveAspectRatio="xMidYMid meet">
+        <!-- Grid lines -->
+        <line x1="40" y1="20" x2="40" y2="170" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+        <line x1="40" y1="170" x2="580" y2="170" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+        <line x1="40" y1="120" x2="580" y2="120" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+        <line x1="40" y1="70" x2="580" y2="70" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+        <line x1="40" y1="20" x2="580" y2="20" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+        <!-- Y-axis labels -->
+        <text x="35" y="174" fill="#555" font-family="'SF Mono', monospace" font-size="9" text-anchor="end">&pound;0</text>
+        <text x="35" y="124" fill="#555" font-family="'SF Mono', monospace" font-size="9" text-anchor="end">&pound;5k</text>
+        <text x="35" y="74" fill="#555" font-family="'SF Mono', monospace" font-size="9" text-anchor="end">&pound;10k</text>
+        <text x="35" y="24" fill="#555" font-family="'SF Mono', monospace" font-size="9" text-anchor="end">&pound;15k</text>
+        <!-- X-axis labels -->
+        <text x="60" y="186" fill="#555" font-family="'SF Mono', monospace" font-size="9" text-anchor="middle">W1</text>
+        <text x="195" y="186" fill="#555" font-family="'SF Mono', monospace" font-size="9" text-anchor="middle">W2</text>
+        <text x="330" y="186" fill="#555" font-family="'SF Mono', monospace" font-size="9" text-anchor="middle">W3</text>
+        <text x="465" y="186" fill="#555" font-family="'SF Mono', monospace" font-size="9" text-anchor="middle">W4</text>
+        <!-- Spend line -->
+        <polyline points="60,130 135,118 195,105 270,95 330,88 400,78 465,65 540,52 580,45" fill="none" stroke="#6366F1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <!-- Revenue line (dimmer) -->
+        <polyline points="60,145 135,132 195,120 270,108 330,98 400,92 465,80 540,68 580,58" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+        <!-- Legend -->
+        <line x1="420" y1="12" x2="435" y2="12" stroke="#6366F1" stroke-width="2" stroke-linecap="round"/>
+        <text x="440" y="15" fill="#888" font-family="'SF Mono', monospace" font-size="9">Spend</text>
+        <line x1="490" y1="12" x2="505" y2="12" stroke="#10B981" stroke-width="2" stroke-linecap="round"/>
+        <text x="510" y="15" fill="#888" font-family="'SF Mono', monospace" font-size="9">Revenue</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Donut chart (NEW) -->
+  <div class="component-block">
+    <div class="component-label">.donut-chart <span class="tag-new">New</span></div>
+    <div class="donut-chart">
+      <div class="donut-svg">
+        <svg width="120" height="120" viewBox="0 0 120 120">
+          <!-- Background circle -->
+          <circle cx="60" cy="60" r="48" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="14"/>
+          <!-- Google Ads: 47.4% = 298 of 628 circumference (2*pi*48 = 301.6) -->
+          <!-- stroke-dasharray: segment_length, remaining -->
+          <!-- Rotate -90deg to start at top -->
+          <circle cx="60" cy="60" r="48" fill="none" stroke="#4285F4" stroke-width="14"
+            stroke-dasharray="143 159" stroke-dashoffset="0"
+            transform="rotate(-90 60 60)" stroke-linecap="butt"/>
+          <circle cx="60" cy="60" r="48" fill="none" stroke="#0081FB" stroke-width="14"
+            stroke-dasharray="98 204" stroke-dashoffset="-143"
+            transform="rotate(-90 60 60)" stroke-linecap="butt"/>
+          <circle cx="60" cy="60" r="48" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="14"
+            stroke-dasharray="24 278" stroke-dashoffset="-241"
+            transform="rotate(-90 60 60)" stroke-linecap="butt"/>
+          <circle cx="60" cy="60" r="48" fill="none" stroke="#EDEDED" stroke-width="14"
+            stroke-dasharray="22 280" stroke-dashoffset="-265"
+            transform="rotate(-90 60 60)" stroke-linecap="butt"/>
+          <circle cx="60" cy="60" r="48" fill="none" stroke="#0A66C2" stroke-width="14"
+            stroke-dasharray="15 287" stroke-dashoffset="-287"
+            transform="rotate(-90 60 60)" stroke-linecap="butt"/>
+          <!-- Center text -->
+          <text class="donut-center-value" x="60" y="57" text-anchor="middle" dominant-baseline="middle">&pound;38.8k</text>
+          <text class="donut-center-label" x="60" y="72" text-anchor="middle">TOTAL SPEND</text>
+        </svg>
+      </div>
+      <div class="donut-legend">
+        <div class="legend-item">
+          <span class="legend-swatch" style="background: #4285F4;"></span>
+          <span class="legend-label">Google Ads</span>
+          <span class="legend-value">&pound;18,420 (47%)</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-swatch" style="background: #0081FB;"></span>
+          <span class="legend-label">Meta Ads</span>
+          <span class="legend-value">&pound;12,640 (33%)</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-swatch" style="background: rgba(255,255,255,0.15);"></span>
+          <span class="legend-label">Microsoft Ads</span>
+          <span class="legend-value">&pound;3,180 (8%)</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-swatch" style="background: #EDEDED;"></span>
+          <span class="legend-label">TikTok Ads</span>
+          <span class="legend-value">&pound;2,810 (7%)</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-swatch" style="background: #0A66C2;"></span>
+          <span class="legend-label">LinkedIn Ads</span>
+          <span class="legend-value">&pound;1,792 (5%)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bar list (NEW) -->
+  <div class="component-block">
+    <div class="component-label">.bar-list <span class="tag-new">New</span></div>
+    <div class="bar-list">
+      <div class="bar-list-item">
+        <span class="bar-list-label">Google Ads</span>
+        <div class="bar-list-track"><div class="bar-list-fill" style="width: 100%;"></div></div>
+        <span class="bar-list-value">198</span>
+      </div>
+      <div class="bar-list-item">
+        <span class="bar-list-label">Meta Ads</span>
+        <div class="bar-list-track"><div class="bar-list-fill" style="width: 64.6%;"></div></div>
+        <span class="bar-list-value">128</span>
+      </div>
+      <div class="bar-list-item">
+        <span class="bar-list-label">Microsoft Ads</span>
+        <div class="bar-list-track"><div class="bar-list-fill" style="width: 17.2%;"></div></div>
+        <span class="bar-list-value">34</span>
+      </div>
+      <div class="bar-list-item">
+        <span class="bar-list-label">TikTok Ads</span>
+        <div class="bar-list-track"><div class="bar-list-fill" style="width: 15.7%;"></div></div>
+        <span class="bar-list-value">31</span>
+      </div>
+      <div class="bar-list-item">
+        <span class="bar-list-label">LinkedIn Ads</span>
+        <div class="bar-list-track"><div class="bar-list-fill" style="width: 10.6%;"></div></div>
+        <span class="bar-list-value">21</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Category bar (NEW) -->
+  <div class="component-block">
+    <div class="component-label">.category-bar <span class="tag-new">New</span></div>
+    <div class="category-bar">
+      <div class="category-bar-track">
+        <div class="category-bar-segment" style="width: 47%; background: #4285F4;"></div>
+        <div class="category-bar-segment" style="width: 33%; background: #0081FB;"></div>
+        <div class="category-bar-segment" style="width: 8%; background: rgba(255,255,255,0.15);"></div>
+        <div class="category-bar-segment" style="width: 7%; background: #EDEDED;"></div>
+        <div class="category-bar-segment" style="width: 5%; background: #0A66C2;"></div>
+      </div>
+      <div class="category-bar-legend">
+        <div class="category-bar-legend-item">
+          <span class="category-bar-legend-swatch" style="background: #4285F4;"></span>
+          <span class="category-bar-legend-label">Google Ads</span>
+          <span class="category-bar-legend-value">47%</span>
+        </div>
+        <div class="category-bar-legend-item">
+          <span class="category-bar-legend-swatch" style="background: #0081FB;"></span>
+          <span class="category-bar-legend-label">Meta Ads</span>
+          <span class="category-bar-legend-value">33%</span>
+        </div>
+        <div class="category-bar-legend-item">
+          <span class="category-bar-legend-swatch" style="background: rgba(255,255,255,0.15);"></span>
+          <span class="category-bar-legend-label">Microsoft</span>
+          <span class="category-bar-legend-value">8%</span>
+        </div>
+        <div class="category-bar-legend-item">
+          <span class="category-bar-legend-swatch" style="background: #EDEDED;"></span>
+          <span class="category-bar-legend-label">TikTok</span>
+          <span class="category-bar-legend-value">7%</span>
+        </div>
+        <div class="category-bar-legend-item">
+          <span class="category-bar-legend-swatch" style="background: #0A66C2;"></span>
+          <span class="category-bar-legend-label">LinkedIn</span>
+          <span class="category-bar-legend-value">5%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     CATEGORY 5: PROGRESS & THRESHOLDS
+     ═══════════════════════════════════════════════════════════════════ -->
+<div class="category">
+  <h2 class="category-title">5. Progress &amp; Thresholds</h2>
+  <p class="category-desc">Track progress against targets and thresholds.</p>
+
+  <!-- Progress bar (NEW) -->
+  <div class="component-block">
+    <div class="component-label">.progress-bar <span class="tag-new">New</span></div>
+
+    <div class="progress-bar">
+      <div class="progress-bar-header">
+        <span class="progress-bar-label">Monthly Spend Budget</span>
+        <span class="progress-bar-pct">78%</span>
+      </div>
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill" style="width: 78%;"></div>
+      </div>
+      <div class="progress-bar-detail">&pound;38,842 of &pound;50,000 target</div>
+    </div>
+
+    <div class="progress-bar">
+      <div class="progress-bar-header">
+        <span class="progress-bar-label">Conversion Target</span>
+        <span class="progress-bar-pct">103%</span>
+      </div>
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill positive" style="width: 100%;"></div>
+      </div>
+      <div class="progress-bar-detail">412 of 400 target &mdash; exceeded</div>
+    </div>
+
+    <div class="progress-bar">
+      <div class="progress-bar-header">
+        <span class="progress-bar-label">CPA Threshold</span>
+        <span class="progress-bar-pct">94%</span>
+      </div>
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill warning" style="width: 94%;"></div>
+      </div>
+      <div class="progress-bar-detail">&pound;94 CPA vs &pound;100 max threshold</div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     CATEGORY 6: COMPARISON PATTERNS
+     ═══════════════════════════════════════════════════════════════════ -->
+<div class="category">
+  <h2 class="category-title">6. Comparison Patterns</h2>
+  <p class="category-desc">Period-over-period comparisons with dual bars and delta badges.</p>
+
+  <!-- Comparison rows (NEW) -->
+  <div class="component-block">
+    <div class="component-label">.comparison-row <span class="tag-new">New</span></div>
+
+    <div class="comparison-row">
+      <div class="comparison-row-header">
+        <span class="comparison-row-label">Total Spend</span>
+        <span class="comparison-row-delta positive">+12.4%</span>
+      </div>
+      <div class="comparison-row-bars">
+        <div class="comparison-bar-row">
+          <span class="comparison-bar-period">Mar</span>
+          <div class="comparison-bar-track"><div class="comparison-bar-fill current" style="width: 78%;"></div></div>
+          <span class="comparison-bar-value">&pound;38,842</span>
+        </div>
+        <div class="comparison-bar-row">
+          <span class="comparison-bar-period">Feb</span>
+          <div class="comparison-bar-track"><div class="comparison-bar-fill previous" style="width: 69%;"></div></div>
+          <span class="comparison-bar-value">&pound;34,560</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="comparison-row">
+      <div class="comparison-row-header">
+        <span class="comparison-row-label">Conversions</span>
+        <span class="comparison-row-delta positive">+8.2%</span>
+      </div>
+      <div class="comparison-row-bars">
+        <div class="comparison-bar-row">
+          <span class="comparison-bar-period">Mar</span>
+          <div class="comparison-bar-track"><div class="comparison-bar-fill current" style="width: 82%;"></div></div>
+          <span class="comparison-bar-value">412</span>
+        </div>
+        <div class="comparison-bar-row">
+          <span class="comparison-bar-period">Feb</span>
+          <div class="comparison-bar-track"><div class="comparison-bar-fill previous" style="width: 76%;"></div></div>
+          <span class="comparison-bar-value">381</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="comparison-row">
+      <div class="comparison-row-header">
+        <span class="comparison-row-label">ROAS</span>
+        <span class="comparison-row-delta negative">-3.1%</span>
+      </div>
+      <div class="comparison-row-bars">
+        <div class="comparison-bar-row">
+          <span class="comparison-bar-period">Mar</span>
+          <div class="comparison-bar-track"><div class="comparison-bar-fill current" style="width: 70%;"></div></div>
+          <span class="comparison-bar-value">4.2x</span>
+        </div>
+        <div class="comparison-bar-row">
+          <span class="comparison-bar-period">Feb</span>
+          <div class="comparison-bar-track"><div class="comparison-bar-fill previous" style="width: 72%;"></div></div>
+          <span class="comparison-bar-value">4.3x</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     CATEGORY 7: CONTENT BLOCKS
+     ═══════════════════════════════════════════════════════════════════ -->
+<div class="category">
+  <h2 class="category-title">7. Content Blocks</h2>
+  <p class="category-desc">Callouts, tags, insight lists, executive summaries, and annotations for narrative context.</p>
+
+  <!-- Callouts -->
+  <div class="component-block">
+    <div class="component-label">.callout (default / .positive / .warning / .negative)</div>
+    <div class="callout">
+      <div class="callout-title">Key Insight</div>
+      <div class="callout-body">Google Ads drove 47% of all conversions at the lowest CPA across channels. Consider increasing budget allocation for Q2.</div>
+    </div>
+    <div class="callout positive">
+      <div class="callout-title">Strong Performance</div>
+      <div class="callout-body">Conversion volume exceeded the monthly target by 3%, reaching 412 conversions against a 400 target.</div>
+    </div>
+    <div class="callout warning">
+      <div class="callout-title">Budget Pacing</div>
+      <div class="callout-body">Current spend is at 78% of the &pound;50,000 monthly budget with 45% of the month remaining. Monitor pacing closely.</div>
+    </div>
+    <div class="callout negative">
+      <div class="callout-title">ROAS Decline</div>
+      <div class="callout-body">Blended ROAS declined 3.1% month-over-month. The decline is driven primarily by LinkedIn Ads, where CPA increased 18%.</div>
+    </div>
+  </div>
+
+  <!-- Tags -->
+  <div class="component-block">
+    <div class="component-label">.tag (default / .positive / .negative / .warning / .neutral)</div>
+    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+      <span class="tag">Default</span>
+      <span class="tag positive">Positive</span>
+      <span class="tag negative">Negative</span>
+      <span class="tag warning">Warning</span>
+      <span class="tag neutral">Neutral</span>
+    </div>
+  </div>
+
+  <!-- Insight list -->
+  <div class="component-block">
+    <div class="component-label">.insight-list</div>
+    <ul class="insight-list">
+      <li><strong>Google Ads</strong> delivered the highest conversion volume (198) at &pound;93 CPA, outperforming all other channels.</li>
+      <li><strong>Meta Ads</strong> showed strong week-over-week improvement, with CPA dropping from &pound;108 to &pound;92 by month end.</li>
+      <li><strong>LinkedIn Ads</strong> CPA of &pound;85 is deceptively low &mdash; small sample size (21 conversions) makes this volatile.</li>
+      <li><strong>TikTok Ads</strong> maintained consistent performance with minimal variance across weeks.</li>
+    </ul>
+  </div>
+
+  <!-- Executive summary (NEW) -->
+  <div class="component-block">
+    <div class="component-label">.exec-summary <span class="tag-new">New</span></div>
+    <div class="exec-summary">
+      <p><strong>March 2026 delivered strong growth across paid channels.</strong> Total spend of <span class="num">&pound;38,842</span> generated <span class="num">412</span> conversions at a blended CPA of <span class="num">&pound;94</span>, exceeding the monthly target by 3%.</p>
+      <p><strong>Google Ads remains the primary growth engine,</strong> accounting for 47% of all conversions. Meta Ads showed the strongest improvement trajectory, with CPA declining 15% over the course of the month. ROAS dipped slightly to <span class="num">4.2x</span> from <span class="num">4.3x</span> in February, driven by LinkedIn Ads testing costs.</p>
+    </div>
+  </div>
+
+  <!-- Annotation (NEW) -->
+  <div class="component-block">
+    <div class="component-label">.annotation <span class="tag-new">New</span></div>
+    <p class="annotation">Conversions are ML-modelled using SegmentStream's probabilistic attribution. CPA and ROAS values reflect attributed revenue, not last-click.</p>
+    <p class="annotation">ROAS calculation uses 28-day attribution window. Figures may differ from platform-reported values due to cross-device matching.</p>
+  </div>
+</div>
+
+<div style="max-width: var(--container); margin: 0 auto; padding: 40px 24px 60px; text-align: center;">
+  <p style="font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted);">End of Component Gallery &middot; 26 Components &middot; 7 Categories</p>
+</div>
+
+</body>
+</html>
