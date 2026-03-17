@@ -108,8 +108,13 @@ This plugin works across the Claude ecosystem and beyond:
 
 Skills are under active development — new dimensions, metrics, and measurement content are added regularly.
 
-- **Marketplace**: `claude plugin update segmentstream`
-- **npx**: Always pulls the latest version automatically
+- **Marketplace** (manual):
+  ```bash
+  claude plugin marketplace update segmentstream-agent-skills
+  claude plugin update segmentstream@segmentstream-agent-skills
+  ```
+  To skip the manual step, enable auto-updates: run `/plugin` in Claude Code → **Marketplaces** → select **segmentstream-agent-skills** → **Enable auto-update**. With auto-updates enabled, plugins are refreshed automatically on startup.
+- **npx**: Always pulls the latest version automatically.
 - **Git clone**: `git pull origin main`
 
 ## Reporting Issues
