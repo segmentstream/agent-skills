@@ -6,7 +6,24 @@ description: |
 
 # SegmentStream Workflow
 
-Call `analyze_request` with `user_prompt` set to the user's message verbatim. The server returns the full approach: which tools to use, which skills to load, and how to handle the request.
+## The #1 Rule: `analyze_request` starts every turn
+
+**Every time the user sends a message** — whether it's a brand-new question or a two-word follow-up like "and ROAS?" or "by channel" — your first action must be calling `analyze_request` with the user's message verbatim.
+
+This isn't just a formality. The server uses the prompt to resolve which project, conversions, attribution models, and query approach to use. A follow-up that looks trivial to you ("and ROAS?") may need a completely different data path on the backend. Skipping this step means you're guessing instead of letting the server guide you.
+
+**No other SegmentStream tool call should happen before `analyze_request` on a given turn.** Not `list_conversions`, not `run_report`, not `get_conversion_statistics` — nothing. `analyze_request` first, always.
+
+### Why follow-ups are especially tricky
+
+Short follow-ups like "and ROAS?", "break it down by channel", "what about Google Ads?" feel like continuations of the previous query. The temptation is to skip `analyze_request` and just tweak the previous report parameters yourself. Don't do this. The server may:
+
+- Switch attribution models based on the metric requested
+- Apply different filters or date logic
+- Return a completely different analytical approach
+- Flag that the requested metric isn't available for this project
+
+You lose all of this if you skip the call.
 
 ## analyze_request statuses
 

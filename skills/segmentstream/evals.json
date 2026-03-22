@@ -91,6 +91,64 @@
         "analyze_response is called before final output",
         "Response is formatted for executive consumption (clear tables, key takeaways)"
       ]
+    },
+    {
+      "id": 9,
+      "prompt": "Show me conversions last week on Ribble Cycles",
+      "follow_up": "and ROAS?",
+      "expected_output": "On turn 2, agent calls analyze_request before any other SegmentStream tool",
+      "expectations": [
+        "Turn 1: first SegmentStream MCP call is analyze_request",
+        "Turn 2: first SegmentStream MCP call is analyze_request (not list_conversions, run_report, etc.)",
+        "Turn 2: analyze_request user_prompt contains 'and ROAS?' or equivalent",
+        "Turn 2: analyze_response is called before presenting results"
+      ]
+    },
+    {
+      "id": 10,
+      "prompt": "How's Facebook Ads doing?",
+      "follow_up": "what about Google Ads?",
+      "expected_output": "On turn 2, agent calls analyze_request for the channel switch",
+      "expectations": [
+        "Turn 1: first SegmentStream MCP call is analyze_request",
+        "Turn 2: first SegmentStream MCP call is analyze_request",
+        "Turn 2: analyze_request user_prompt contains 'Google Ads' or equivalent",
+        "Turn 2: response covers Google Ads data, not Facebook"
+      ]
+    },
+    {
+      "id": 11,
+      "prompt": "Pull last month's CPA by campaign",
+      "follow_up": "sort by spend",
+      "expected_output": "On turn 2, agent calls analyze_request even for a sort change",
+      "expectations": [
+        "Turn 1: first SegmentStream MCP call is analyze_request",
+        "Turn 2: first SegmentStream MCP call is analyze_request",
+        "Turn 2: results are sorted by spend descending"
+      ]
+    },
+    {
+      "id": 12,
+      "prompt": "Show me channel performance for Q1",
+      "follow_up": "now break it down by country",
+      "expected_output": "On turn 2, agent calls analyze_request for the dimension change",
+      "expectations": [
+        "Turn 1: first SegmentStream MCP call is analyze_request",
+        "Turn 2: first SegmentStream MCP call is analyze_request",
+        "Turn 2: run_report includes country dimension",
+        "Turn 2: analyze_response is called before presenting results"
+      ]
+    },
+    {
+      "id": 13,
+      "prompt": "What's our ROAS this week?",
+      "follow_up": "compare to last week",
+      "expected_output": "On turn 2, agent calls analyze_request for the comparison",
+      "expectations": [
+        "Turn 1: first SegmentStream MCP call is analyze_request",
+        "Turn 2: first SegmentStream MCP call is analyze_request",
+        "Turn 2: response includes both periods with comparison"
+      ]
     }
   ]
 }
