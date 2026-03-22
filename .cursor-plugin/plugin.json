@@ -1,7 +1,7 @@
 {
   "name": "segmentstream",
   "displayName": "SegmentStream Marketing Analyst",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "AI-powered marketing measurement analyst. Connects to SegmentStream for campaign reports, attribution analysis, and measurement strategy.",
   "author": {
     "name": "SegmentStream",
