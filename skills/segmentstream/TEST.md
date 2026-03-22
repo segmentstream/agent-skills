@@ -67,14 +67,76 @@ Precision=100% Recall=92% Accuracy=94% (32/34 passed, 3 runs per query)
 ## Workflow evals
 
 Test cases are in `evals.json`. These test that once the skill triggers, Claude follows the
-analyze_request/analyze_response protocol:
+analyze_request/analyze_response protocol. Single-turn evals have a `prompt` field only.
+Multi-turn evals also have a `follow_up` field — these test that `analyze_request` is called
+on every turn, including short follow-ups.
+
+### Prerequisites
+
+- SegmentStream MCP must be authenticated. Run `/mcp` in an interactive Claude Code session
+  to complete the OAuth flow. Tokens persist in macOS Keychain (`Claude Code-credentials`)
+  and are available to subprocesses after initial auth.
+- `--dangerously-skip-permissions` is required — otherwise MCP tool calls prompt for approval
+  and the subprocess hangs.
+
+### Single-turn evals
 
 ```bash
 CLAUDECODE= claude -p "<prompt>" \
   --plugin-dir /path/to/agent-skills \
   --output-format stream-json --verbose \
-  --max-turns 10
+  --dangerously-skip-permissions \
+  --max-turns 15
 ```
 
-Key assertions: first SegmentStream MCP call is `analyze_request`, and `analyze_response` is called
-before the final output.
+Parse the `stream-json` output for `assistant` events containing `tool_use` blocks. Check:
+1. First `mcp__segmentstream__*` tool call is `analyze_request`
+2. `analyze_response` is called before the final `end_turn`
+
+### Multi-turn evals
+
+Use `--resume` to continue the session with the follow-up:
+
+```bash
+# Turn 1
+CLAUDECODE= claude -p "<prompt>" \
+  --plugin-dir /path/to/agent-skills \
+  --output-format stream-json --verbose \
+  --dangerously-skip-permissions \
+  --max-turns 15
+
+# Capture session_id from the "result" event in stream-json output
+
+# Turn 2 (follow-up)
+CLAUDECODE= claude -p "<follow_up>" \
+  --plugin-dir /path/to/agent-skills \
+  --output-format stream-json --verbose \
+  --dangerously-skip-permissions \
+  --max-turns 15 \
+  --resume <session_id>
+```
+
+Parse turn 2's tool calls separately. The key assertion: `analyze_request` is the first
+`mcp__segmentstream__*` tool on turn 2, even for short follow-ups like "and ROAS?".
+
+### Parsing stream-json for tool calls
+
+```python
+for event in stream_events:
+    if event["type"] == "assistant":
+        for block in event["message"]["content"]:
+            if block["type"] == "tool_use" and "mcp__segmentstream" in block["name"]:
+                tool_name = block["name"]  # e.g. mcp__segmentstream__analyze_request
+                tool_input = block["input"]
+```
+
+### Known limitations
+
+- Prompts must be self-contained — the subprocess has no project context from previous
+  sessions. If multiple projects exist, `analyze_request` may return `clarify`.
+- Multi-turn evals are slower (~2-5 min per eval) because each turn is a separate subprocess.
+
+### Baseline (2026-03-22)
+
+Single-turn: PASS — analyze_request first, analyze_response last.
+Multi-turn ("and ROAS?" follow-up): PASS — analyze_request first on both turns.

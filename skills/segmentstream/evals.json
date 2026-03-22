@@ -94,7 +94,7 @@
     },
     {
       "id": 9,
-      "prompt": "Show me conversions last week on Ribble Cycles",
+      "prompt": "Show me conversions last week",
       "follow_up": "and ROAS?",
       "expected_output": "On turn 2, agent calls analyze_request before any other SegmentStream tool",
       "expectations": [
