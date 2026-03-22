@@ -1,0 +1,13 @@
+{
+  "UserPromptSubmit": [
+    {
+      "hooks": [
+        {
+          "type": "command",
+          "command": "echo 'If this message involves marketing, campaigns, or ad performance — use the segmentstream skill.'",
+          "timeout": 5
+        }
+      ]
+    }
+  ]
+}

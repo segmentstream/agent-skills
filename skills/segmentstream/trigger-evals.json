@@ -1,0 +1,138 @@
+[
+  {
+    "query": "How are my Google Ads campaigns performing this month? I want to see ROAS and CPA by campaign",
+    "should_trigger": true
+  },
+  {
+    "query": "we spent about 50k on Meta last quarter and I have no idea if it actually drove any revenue. can you pull the numbers?",
+    "should_trigger": true
+  },
+  {
+    "query": "break it down by week",
+    "should_trigger": true
+  },
+  {
+    "query": "should we trust our last-click numbers or is the ML attribution model more reliable for our B2B funnel?",
+    "should_trigger": true
+  },
+  {
+    "query": "something's off with our Facebook data — costs look way too low since Tuesday. can you check if the data source is importing correctly?",
+    "should_trigger": true
+  },
+  {
+    "query": "I need to prep a slide for the CMO showing which channels actually move the needle. pull channel performance with attributed revenue and ROAS",
+    "should_trigger": true
+  },
+  {
+    "query": "how's fb doing",
+    "should_trigger": true
+  },
+  {
+    "query": "we're thinking about cutting TikTok spend entirely — what does the incrementality data say? did we run any geo tests on it?",
+    "should_trigger": true
+  },
+  {
+    "query": "what audiences are available for our retargeting campaigns and how many users are in each?",
+    "should_trigger": true
+  },
+  {
+    "query": "compare our non-brand search performance in Q1 vs Q4 last year, I want to see if CPA is trending up",
+    "should_trigger": true
+  },
+  {
+    "query": "can you connect segmentstream? I just installed the plugin",
+    "should_trigger": true
+  },
+  {
+    "query": "where's our budget being wasted? show me campaigns with high spend and low ROAS",
+    "should_trigger": true
+  },
+  {
+    "query": "our signup page conversion rate dropped — can you check the frontend code for any recent changes that might have broken the form?",
+    "should_trigger": true
+  },
+  {
+    "query": "help me write a blog post about attribution modeling best practices for our company blog",
+    "should_trigger": true
+  },
+  {
+    "query": "our conversions haven't fully matured yet — what does the projected ROAS look like once we account for the maturation curve?",
+    "should_trigger": true
+  },
+  {
+    "query": "we ran a geo holdout test on YouTube last month, did it actually show incremental lift or are we just wasting money?",
+    "should_trigger": true
+  },
+  {
+    "query": "I'm seeing a CPA spike on LinkedIn since last Monday but I can't figure out why. can you do a root cause analysis?",
+    "should_trigger": true
+  },
+  {
+    "query": "how do we measure the impact of our podcast sponsorships and word-of-mouth? we have post-purchase survey data",
+    "should_trigger": true
+  },
+  {
+    "query": "show me the marginal ROAS curve for our portfolio — I want to see where we're hitting diminishing returns",
+    "should_trigger": true
+  },
+  {
+    "query": "what's the lead scoring model predicting for our current pipeline? which leads are most likely to close?",
+    "should_trigger": true
+  },
+  {
+    "query": "is our identity graph stitching users across devices correctly? I want to see the match rate",
+    "should_trigger": true
+  },
+  {
+    "query": "we just launched on Snapchat and Pinterest — are those connectors pulling in cost data yet?",
+    "should_trigger": true
+  },
+  {
+    "query": "can you check if there are any active data quality incidents? our numbers look weird today",
+    "should_trigger": true
+  },
+  {
+    "query": "how much of our branded search traffic is just cannibalizing organic? I want to see the overlap",
+    "should_trigger": true
+  },
+  {
+    "query": "Write a Python script that reads a CSV file and deduplicates rows based on the email column",
+    "should_trigger": false
+  },
+  {
+    "query": "what's our monthly recurring revenue broken down by plan tier? I need it from the billing database",
+    "should_trigger": false
+  },
+  {
+    "query": "I need to set up tracking for our bug reports in Linear — can you create labels for P0 through P3?",
+    "should_trigger": false
+  },
+  {
+    "query": "summarize the key points from this PDF and turn them into bullet points for my presentation",
+    "should_trigger": false
+  },
+  {
+    "query": "our engineering team needs a dashboard showing API latency p99 and error rates by endpoint",
+    "should_trigger": false
+  },
+  {
+    "query": "can you review this PR? it changes how we calculate LTV in the data warehouse",
+    "should_trigger": false
+  },
+  {
+    "query": "deploy the staging branch to production and run the database migration",
+    "should_trigger": false
+  },
+  {
+    "query": "write unit tests for the UserService class — focus on the authentication flow",
+    "should_trigger": false
+  },
+  {
+    "query": "our Kubernetes pods keep crashing with OOM errors — can you check the memory limits in the deployment yaml?",
+    "should_trigger": false
+  },
+  {
+    "query": "I need to build an internal tool for the ops team to manually approve refunds — React with a simple table and action buttons",
+    "should_trigger": false
+  }
+]

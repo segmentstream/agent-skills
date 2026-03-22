@@ -1,0 +1,96 @@
+{
+  "agent_name": "segmentstream",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "How are my Google Ads performing this month?",
+      "expected_output": "Agent calls analyze_request first, follows returned approach, runs report, calls analyze_response before presenting results with ROAS/cost/conversion data",
+      "expectations": [
+        "First SegmentStream MCP tool call is analyze_request",
+        "analyze_request user_prompt contains the user's question verbatim",
+        "run_report is called after analyze_request returns",
+        "analyze_response is called with a response_draft before the final output",
+        "Final response includes campaign performance metrics in a table"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Show me our top campaigns by spend last quarter",
+      "expected_output": "Agent follows workflow, queries campaigns sorted by cost, presents ranked table",
+      "expectations": [
+        "First SegmentStream MCP tool call is analyze_request",
+        "run_report uses campaign_name dimension",
+        "run_report sorts by cost descending",
+        "Date range covers the previous quarter",
+        "analyze_response is called before final output"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "What's our ROAS by channel?",
+      "expected_output": "Agent follows workflow, queries channel-level ROAS with proper conversion/attribution resolution",
+      "expectations": [
+        "First SegmentStream MCP tool call is analyze_request",
+        "run_report uses channel dimension",
+        "run_report includes roas metric",
+        "analyze_response is called before final output",
+        "Response explains ROAS figures with interpretation, not just raw numbers"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Compare this month to last month",
+      "expected_output": "Agent follows workflow, uses comparison_date_range, presents period-over-period analysis",
+      "expectations": [
+        "First SegmentStream MCP tool call is analyze_request",
+        "run_report uses comparison_date_range parameter",
+        "Response includes both periods with delta/change indicators",
+        "analyze_response is called before final output"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Should we trust our last-click attribution numbers?",
+      "expected_output": "Agent calls analyze_request even for conceptual questions, provides methodology answer",
+      "expectations": [
+        "First SegmentStream MCP tool call is analyze_request",
+        "Response explains limitations of last-click attribution",
+        "Response references ML or multi-touch attribution as alternative",
+        "analyze_response is called before final output"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Pause my underperforming campaigns in Germany",
+      "expected_output": "Agent calls analyze_request, receives unsupported or confirm status, explains limitation",
+      "expectations": [
+        "First SegmentStream MCP tool call is analyze_request",
+        "Agent does NOT attempt to directly modify campaigns",
+        "Response explains that campaign modifications must be done in the ad platform",
+        "Agent offers to analyze Germany campaign performance instead"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "Why did our conversions drop last week?",
+      "expected_output": "Agent follows workflow, investigates with multiple tool calls, provides root cause analysis",
+      "expectations": [
+        "First SegmentStream MCP tool call is analyze_request",
+        "Multiple run_report calls are made to investigate different angles",
+        "analyze_response is called with a comprehensive draft",
+        "Response identifies potential causes with supporting data"
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "I need a report for my CMO showing channel performance with ROAS and CPA",
+      "expected_output": "Agent follows workflow, queries data, and may use report generator skill",
+      "expectations": [
+        "First SegmentStream MCP tool call is analyze_request",
+        "run_report includes channel dimension with roas and cpa metrics",
+        "analyze_response is called before final output",
+        "Response is formatted for executive consumption (clear tables, key takeaways)"
+      ]
+    }
+  ]
+}
