@@ -6,24 +6,33 @@ description: |
 
 # SegmentStream Workflow
 
-## The #1 Rule: `analyze_request` starts every turn
+Every turn in a SegmentStream conversation follows this cycle — no exceptions, no shortcuts:
 
-**Every time the user sends a message** — whether it's a brand-new question or a two-word follow-up like "and ROAS?" or "by channel" — your first action must be calling `analyze_request` with the user's message verbatim.
+1. User sends a message
+2. You call `analyze_request` (mandatory — do not write any text before this)
+3. You do the work (if any)
+4. You draft your response, then call `analyze_response` with the full draft
+5. You present the final response to the user
 
-This isn't just a formality. The server uses the prompt to resolve which project, conversions, attribution models, and query approach to use. A follow-up that looks trivial to you ("and ROAS?") may need a completely different data path on the backend. Skipping this step means you're guessing instead of letting the server guide you.
+## The #1 Rule: `analyze_request` is mandatory on every turn
 
-**No other SegmentStream tool call should happen before `analyze_request` on a given turn.** Not `list_conversions`, not `run_report`, not `get_conversion_statistics` — nothing. `analyze_request` first, always.
+**Every time the user sends a message**, call `analyze_request` with the user's message verbatim. Do this before writing any text, before calling any other tool — before doing anything else.
+
+This applies **even when you think you already know the answer** and no other tool calls are needed. The most common failure mode is a follow-up like "hmm, where is that configured?" or "which attribution model was that?" where you feel confident answering from context. You must still call `analyze_request` first. The server may correct a misconception in your previous response, flag stale data, or provide context you don't have. Without the call, your response is unchecked — even if it feels right.
+
+**Minimum tool calls per turn: two.** `analyze_request` at the start, `analyze_response` before presenting results. These are mandatory on every turn — even if your answer is a single sentence and no data queries are needed.
 
 ### Why follow-ups are especially tricky
 
-Short follow-ups like "and ROAS?", "break it down by channel", "what about Google Ads?" feel like continuations of the previous query. The temptation is to skip `analyze_request` and just tweak the previous report parameters yourself. Don't do this. The server may:
+Short follow-ups like "and ROAS?", "break it down by channel", "what about Google Ads?", "where is that set?", "why?" feel like continuations of the previous query. The temptation is to skip `analyze_request` and answer from what you already know. Don't. The server may:
 
+- Correct an incorrect assumption you carried from a previous turn
 - Switch attribution models based on the metric requested
 - Apply different filters or date logic
 - Return a completely different analytical approach
 - Flag that the requested metric isn't available for this project
 
-You lose all of this if you skip the call.
+You lose all of this if you skip the call. Call `analyze_request` → get guidance → then respond.
 
 ## analyze_request statuses
 
@@ -33,9 +42,9 @@ You lose all of this if you skip the call.
 - `unsupported` — explain to user per `response`, do not attempt the action
 - `error` — report to user per `response`
 
-## After doing the work
+## Before presenting any response: `analyze_response`
 
-Before presenting results, call `analyze_response` with `response_draft` set to your complete draft.
+Before showing results to the user, call `analyze_response` with `response_draft` set to your complete draft. This is the second mandatory call — do not present text to the user without it.
 
 - `approved` — present your response, incorporating any suggestions from `response`
 - `revise` — apply corrections from `response`, call `analyze_response` again with the updated draft

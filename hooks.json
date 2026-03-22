@@ -4,7 +4,7 @@
       "hooks": [
         {
           "type": "command",
-          "command": "echo 'If this message involves marketing, campaigns, or ad performance — use the segmentstream skill.'",
+          "command": "echo 'If this is a SegmentStream conversation: call analyze_request BEFORE writing any text. This applies even when you think you can answer from context — no exceptions, no text output first. If this is not a SegmentStream conversation but involves marketing or ad performance — use the segmentstream skill.'",
           "timeout": 5
         }
       ]

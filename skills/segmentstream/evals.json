@@ -149,6 +149,66 @@
         "Turn 2: first SegmentStream MCP call is analyze_request",
         "Turn 2: response includes both periods with comparison"
       ]
+    },
+    {
+      "id": 14,
+      "prompt": "Show me our top campaigns by conversions this month",
+      "follow_up": "which attribution model is that?",
+      "expected_output": "On turn 2, agent calls analyze_request even though it could answer from context (it already fetched attribution model info on turn 1)",
+      "expectations": [
+        "Turn 1: first SegmentStream MCP call is analyze_request",
+        "Turn 2: first SegmentStream MCP call is analyze_request",
+        "Turn 2: analyze_response is called before presenting the answer",
+        "Turn 2: response correctly identifies the attribution model used"
+      ]
+    },
+    {
+      "id": 15,
+      "prompt": "What's our channel ROAS?",
+      "follow_up": "why is social so low?",
+      "expected_output": "On turn 2, agent calls analyze_request even for a 'why' question it could speculate on from existing data",
+      "expectations": [
+        "Turn 1: first SegmentStream MCP call is analyze_request",
+        "Turn 2: first SegmentStream MCP call is analyze_request",
+        "Turn 2: analyze_response is called before presenting the answer"
+      ]
+    },
+    {
+      "id": 16,
+      "prompt": "How are Google Ads performing?",
+      "follow_up": "what does that conversion metric mean?",
+      "expected_output": "On turn 2, agent calls analyze_request even for a conceptual/definitional question about data already shown",
+      "expectations": [
+        "Turn 1: first SegmentStream MCP call is analyze_request",
+        "Turn 2: first SegmentStream MCP call is analyze_request",
+        "Turn 2: analyze_response is called before presenting the answer"
+      ]
+    },
+    {
+      "id": 17,
+      "prompt": "Show me top campaigns by conversions",
+      "follow_up": "which attribution model is that?",
+      "follow_up_2": "where is it configured that this is the default?",
+      "expected_output": "On turn 3, agent calls analyze_request even though it could answer from context — it already explained the attribution model on turn 2",
+      "expectations": [
+        "Turn 1: first SegmentStream MCP call is analyze_request",
+        "Turn 2: first SegmentStream MCP call is analyze_request",
+        "Turn 3: first SegmentStream MCP call is analyze_request",
+        "Turn 3: analyze_response is called before presenting the answer"
+      ]
+    },
+    {
+      "id": 18,
+      "prompt": "What's our ROAS by channel?",
+      "follow_up": "break it down by campaign for paid search",
+      "follow_up_2": "why did you use that date range?",
+      "expected_output": "On turn 3, agent calls analyze_request for a question about its own methodology — easily answerable from context",
+      "expectations": [
+        "Turn 1: first SegmentStream MCP call is analyze_request",
+        "Turn 2: first SegmentStream MCP call is analyze_request",
+        "Turn 3: first SegmentStream MCP call is analyze_request",
+        "Turn 3: analyze_response is called before presenting the answer"
+      ]
     }
   ]
 }
